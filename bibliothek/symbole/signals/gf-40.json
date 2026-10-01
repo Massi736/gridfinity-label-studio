@@ -1,0 +1,10 @@
+{
+  "id": "gf-40",
+  "name": "Dipole Antenna · COMMON",
+  "category": "signals",
+  "keywords": "Antenne",
+  "source": "gflabel",
+  "order": 22,
+  "enabled": true,
+  "svg": "gf-40.svg"
+}

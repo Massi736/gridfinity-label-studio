@@ -1,0 +1,12 @@
+{
+  "id": "studio-ferrule-uninsulated",
+  "name": "Aderendhülse · unisoliert",
+  "category": "connectors",
+  "keywords": "aderendhuelse aderendhülsen unisolierte unisoliert ferrule uninsulated kabel draht hülse ohne isolation blank",
+  "source": "Label Studio · vereinheitlichte Zeichnung nach bisheriger Vorlage",
+  "order": 148,
+  "enabled": true,
+  "svg": "studio-ferrule-uninsulated.svg",
+  "referenceHeight": 8,
+  "alignment": "left"
+}

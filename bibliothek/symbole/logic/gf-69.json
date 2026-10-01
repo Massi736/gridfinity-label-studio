@@ -1,0 +1,10 @@
+{
+  "id": "gf-69",
+  "name": "Inverted Schmitt Trigger · COMMON",
+  "category": "logic",
+  "keywords": "symbol(ic-com-schmitt-inverted)",
+  "source": "gflabel",
+  "order": 51,
+  "enabled": true,
+  "svg": "gf-69.svg"
+}

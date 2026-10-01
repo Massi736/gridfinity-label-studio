@@ -1,0 +1,12 @@
+{
+  "id": "gf-5",
+  "name": "Mutter · Seite",
+  "category": "nuts",
+  "keywords": "nut_profile",
+  "source": "gflabel",
+  "order": 6,
+  "enabled": true,
+  "svg": "gf-5.svg",
+  "alignment": "center",
+  "referenceHeight": 37.79529
+}

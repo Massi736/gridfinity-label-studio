@@ -1,0 +1,10 @@
+{
+  "id": "gf-107",
+  "name": "Memristor · COMMON",
+  "category": "passive",
+  "keywords": "Widerstand",
+  "source": "gflabel",
+  "order": 89,
+  "enabled": true,
+  "svg": "gf-107.svg"
+}

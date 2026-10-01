@@ -1,0 +1,10 @@
+{
+  "id": "gf-41",
+  "name": "Aerial Antenna · COMMON",
+  "category": "signals",
+  "keywords": "Antenne",
+  "source": "gflabel",
+  "order": 23,
+  "enabled": true,
+  "svg": "gf-41.svg"
+}

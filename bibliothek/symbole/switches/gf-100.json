@@ -1,0 +1,10 @@
+{
+  "id": "gf-100",
+  "name": "SPDT Relay · IEEE",
+  "category": "switches",
+  "keywords": "Relais",
+  "source": "gflabel",
+  "order": 82,
+  "enabled": true,
+  "svg": "gf-100.svg"
+}

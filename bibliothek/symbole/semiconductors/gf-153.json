@@ -1,0 +1,10 @@
+{
+  "id": "gf-153",
+  "name": "P-Channel MOSFET in Depletion Mode · COMMON",
+  "category": "semiconductors",
+  "keywords": "Transistor",
+  "source": "gflabel",
+  "order": 135,
+  "enabled": true,
+  "svg": "gf-153.svg"
+}

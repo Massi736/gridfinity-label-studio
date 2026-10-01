@@ -1,0 +1,12 @@
+{
+  "id": "studio-ferrule-insulated",
+  "name": "Aderendhülse · isoliert",
+  "category": "connectors",
+  "keywords": "aderendhuelse aderendhülsen isolierte isoliert ferrule insulated kabel draht hülse kragen",
+  "source": "Label Studio · vereinheitlichte Zeichnung nach bisheriger Vorlage",
+  "order": 147,
+  "enabled": true,
+  "svg": "studio-ferrule-insulated.svg",
+  "referenceHeight": 8,
+  "alignment": "left"
+}

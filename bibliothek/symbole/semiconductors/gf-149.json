@@ -1,0 +1,10 @@
+{
+  "id": "gf-149",
+  "name": "N-Channel MOSFET · COMMON",
+  "category": "semiconductors",
+  "keywords": "Transistor",
+  "source": "gflabel",
+  "order": 131,
+  "enabled": true,
+  "svg": "gf-149.svg"
+}

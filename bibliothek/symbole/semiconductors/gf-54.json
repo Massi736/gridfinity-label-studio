@@ -1,0 +1,10 @@
+{
+  "id": "gf-54",
+  "name": "Varicap Diode · COMMON",
+  "category": "semiconductors",
+  "keywords": "Diode",
+  "source": "gflabel",
+  "order": 36,
+  "enabled": true,
+  "svg": "gf-54.svg"
+}

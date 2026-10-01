@@ -1,0 +1,10 @@
+{
+  "id": "gf-79",
+  "name": "Inverter (Inverted Buffer) · COMMON",
+  "category": "logic",
+  "keywords": "symbol(ic-com-logic-inverter)",
+  "source": "gflabel",
+  "order": 61,
+  "enabled": true,
+  "svg": "gf-79.svg"
+}

@@ -1,0 +1,10 @@
+{
+  "id": "gf-105",
+  "name": "SPST Relay Normally-Closed (Common Style) · COMMON",
+  "category": "switches",
+  "keywords": "Relais",
+  "source": "gflabel",
+  "order": 87,
+  "enabled": true,
+  "svg": "gf-105.svg"
+}

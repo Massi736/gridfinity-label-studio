@@ -1,0 +1,12 @@
+{
+  "id": "gf-17",
+  "name": "Pozidriv",
+  "category": "fasteners",
+  "keywords": "head(pozidrive)",
+  "source": "gflabel",
+  "order": 15,
+  "enabled": true,
+  "svg": "gf-17.svg",
+  "alignment": "center",
+  "referenceHeight": 37.79529
+}

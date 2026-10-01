@@ -1,0 +1,12 @@
+{
+  "id": "gf-6",
+  "name": "Stoppmutter · Seite",
+  "category": "nuts",
+  "keywords": "locknut_profile",
+  "source": "gflabel",
+  "order": 7,
+  "enabled": true,
+  "svg": "gf-6.svg",
+  "alignment": "center",
+  "referenceHeight": 37.79529
+}

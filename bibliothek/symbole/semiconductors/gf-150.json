@@ -1,0 +1,10 @@
+{
+  "id": "gf-150",
+  "name": "N-Channel MOSFET in Depletion Mode · COMMON",
+  "category": "semiconductors",
+  "keywords": "Transistor",
+  "source": "gflabel",
+  "order": 132,
+  "enabled": true,
+  "svg": "gf-150.svg"
+}

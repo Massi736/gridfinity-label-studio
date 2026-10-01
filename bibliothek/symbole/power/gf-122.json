@@ -1,0 +1,10 @@
+{
+  "id": "gf-122",
+  "name": "Photovoltaic Solar Cell · COMMON",
+  "category": "power",
+  "keywords": "symbol(source-com-photovoltaic)",
+  "source": "gflabel",
+  "order": 104,
+  "enabled": true,
+  "svg": "gf-122.svg"
+}

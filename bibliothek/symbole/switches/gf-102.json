@@ -1,0 +1,10 @@
+{
+  "id": "gf-102",
+  "name": "SPST Relay Normally-Closed · IEC",
+  "category": "switches",
+  "keywords": "Relais",
+  "source": "gflabel",
+  "order": 84,
+  "enabled": true,
+  "svg": "gf-102.svg"
+}

@@ -1,0 +1,10 @@
+{
+  "id": "gf-96",
+  "name": "Crystal Oscillator · COMMON",
+  "category": "signals",
+  "keywords": "symbol(miscellaneous-com-crystal_oscillator)",
+  "source": "gflabel",
+  "order": 78,
+  "enabled": true,
+  "svg": "gf-96.svg"
+}

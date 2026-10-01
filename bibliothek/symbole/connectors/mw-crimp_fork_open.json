@@ -1,0 +1,12 @@
+{
+  "id": "mw-crimp_fork_open",
+  "name": "Gabelkabelschuh · offen",
+  "category": "connectors",
+  "keywords": "",
+  "source": "Label Studio · vereinheitlichte Zeichnung nach bisheriger Vorlage",
+  "order": 140,
+  "enabled": true,
+  "svg": "mw-crimp_fork_open.svg",
+  "referenceHeight": 8,
+  "alignment": "left"
+}

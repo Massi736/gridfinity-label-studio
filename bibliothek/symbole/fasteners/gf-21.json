@@ -1,0 +1,12 @@
+{
+  "id": "gf-21",
+  "name": "Vierkant",
+  "category": "fasteners",
+  "keywords": "head(square)",
+  "source": "gflabel",
+  "order": 17,
+  "enabled": true,
+  "svg": "gf-21.svg",
+  "alignment": "center",
+  "referenceHeight": 37.79529
+}

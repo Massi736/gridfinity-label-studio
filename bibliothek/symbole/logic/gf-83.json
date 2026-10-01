@@ -1,0 +1,10 @@
+{
+  "id": "gf-83",
+  "name": "Logic OR · COMMON",
+  "category": "logic",
+  "keywords": "symbol(ic-com-logic-or)",
+  "source": "gflabel",
+  "order": 65,
+  "enabled": true,
+  "svg": "gf-83.svg"
+}

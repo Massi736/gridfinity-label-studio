@@ -1,0 +1,12 @@
+{
+  "id": "gf-1",
+  "name": "Unterlegscheibe",
+  "category": "washers",
+  "keywords": "washer",
+  "source": "gflabel",
+  "order": 2,
+  "enabled": true,
+  "svg": "gf-1.svg",
+  "alignment": "center",
+  "referenceHeight": 37.79529
+}

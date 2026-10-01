@@ -1,0 +1,10 @@
+{
+  "id": "gf-43",
+  "name": "Microphone · IEC",
+  "category": "signals",
+  "keywords": "Audio",
+  "source": "gflabel",
+  "order": 25,
+  "enabled": true,
+  "svg": "gf-43.svg"
+}

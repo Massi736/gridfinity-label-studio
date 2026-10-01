@@ -1,0 +1,10 @@
+{
+  "id": "gf-74",
+  "name": "Clocked-T Flip-Flop · COMMON",
+  "category": "logic",
+  "keywords": "symbol(ic-com-flipflop-clockedt)",
+  "source": "gflabel",
+  "order": 56,
+  "enabled": true,
+  "svg": "gf-74.svg"
+}

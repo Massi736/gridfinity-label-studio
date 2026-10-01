@@ -1,0 +1,10 @@
+{
+  "id": "gf-152",
+  "name": "P-Channel MOSFET · COMMON",
+  "category": "semiconductors",
+  "keywords": "Transistor",
+  "source": "gflabel",
+  "order": 134,
+  "enabled": true,
+  "svg": "gf-152.svg"
+}

@@ -1,0 +1,10 @@
+{
+  "id": "gf-68",
+  "name": "Schmitt Trigger · COMMON",
+  "category": "logic",
+  "keywords": "symbol(ic-com-schmitt)",
+  "source": "gflabel",
+  "order": 50,
+  "enabled": true,
+  "svg": "gf-68.svg"
+}

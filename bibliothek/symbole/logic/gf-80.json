@@ -1,0 +1,10 @@
+{
+  "id": "gf-80",
+  "name": "Logic AND · COMMON",
+  "category": "logic",
+  "keywords": "symbol(ic-com-logic-and)",
+  "source": "gflabel",
+  "order": 62,
+  "enabled": true,
+  "svg": "gf-80.svg"
+}

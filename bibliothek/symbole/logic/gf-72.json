@@ -1,0 +1,10 @@
+{
+  "id": "gf-72",
+  "name": "Clocked-D Flip-Flop · COMMON",
+  "category": "logic",
+  "keywords": "symbol(ic-com-flipflop-clockedd)",
+  "source": "gflabel",
+  "order": 54,
+  "enabled": true,
+  "svg": "gf-72.svg"
+}

@@ -1,0 +1,10 @@
+{
+  "id": "gf-116",
+  "name": "Varistor · IEC",
+  "category": "passive",
+  "keywords": "Widerstand",
+  "source": "gflabel",
+  "order": 98,
+  "enabled": true,
+  "svg": "gf-116.svg"
+}

@@ -1,0 +1,10 @@
+{
+  "id": "gf-139",
+  "name": "Center-Tapped Transformer · COMMON",
+  "category": "passive",
+  "keywords": "Transformator",
+  "source": "gflabel",
+  "order": 121,
+  "enabled": true,
+  "svg": "gf-139.svg"
+}

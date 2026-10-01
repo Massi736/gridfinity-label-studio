@@ -1,0 +1,10 @@
+{
+  "id": "gf-56",
+  "name": "Shottky Diode · COMMON",
+  "category": "semiconductors",
+  "keywords": "Diode",
+  "source": "gflabel",
+  "order": 38,
+  "enabled": true,
+  "svg": "gf-56.svg"
+}

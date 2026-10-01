@@ -1,0 +1,12 @@
+{
+  "id": "gf-9",
+  "name": "Kreis",
+  "category": "other",
+  "keywords": "circle",
+  "source": "gflabel",
+  "order": 10,
+  "enabled": true,
+  "svg": "gf-9.svg",
+  "alignment": "center",
+  "referenceHeight": 37.79529
+}

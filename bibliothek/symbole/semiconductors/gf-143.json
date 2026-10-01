@@ -1,0 +1,10 @@
+{
+  "id": "gf-143",
+  "name": "JFET-P · COMMON",
+  "category": "semiconductors",
+  "keywords": "Transistor",
+  "source": "gflabel",
+  "order": 125,
+  "enabled": true,
+  "svg": "gf-143.svg"
+}

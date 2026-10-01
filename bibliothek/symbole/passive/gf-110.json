@@ -1,0 +1,10 @@
+{
+  "id": "gf-110",
+  "name": "Trimmer / Trim-Pot (IEEE/ANSI) · IEEE",
+  "category": "passive",
+  "keywords": "Widerstand",
+  "source": "gflabel",
+  "order": 92,
+  "enabled": true,
+  "svg": "gf-110.svg"
+}

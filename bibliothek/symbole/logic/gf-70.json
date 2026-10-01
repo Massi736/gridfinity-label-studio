@@ -1,0 +1,10 @@
+{
+  "id": "gf-70",
+  "name": "Operational Amplifier (OpAmp) · COMMON",
+  "category": "logic",
+  "keywords": "symbol(ic-com-opamp)",
+  "source": "gflabel",
+  "order": 52,
+  "enabled": true,
+  "svg": "gf-70.svg"
+}

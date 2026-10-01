@@ -1,0 +1,10 @@
+{
+  "id": "gf-130",
+  "name": "Square Wave Generator · COMMON",
+  "category": "power",
+  "keywords": "symbol(source-com-square)",
+  "source": "gflabel",
+  "order": 112,
+  "enabled": true,
+  "svg": "gf-130.svg"
+}

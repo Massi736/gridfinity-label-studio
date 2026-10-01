@@ -1,0 +1,12 @@
+{
+  "id": "gf-13",
+  "name": "Torx",
+  "category": "fasteners",
+  "keywords": "head(torx)",
+  "source": "gflabel",
+  "order": 13,
+  "enabled": true,
+  "svg": "gf-13.svg",
+  "alignment": "center",
+  "referenceHeight": 37.79529
+}

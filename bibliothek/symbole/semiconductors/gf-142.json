@@ -1,0 +1,10 @@
+{
+  "id": "gf-142",
+  "name": "Phototransistor · COMMON",
+  "category": "semiconductors",
+  "keywords": "Transistor",
+  "source": "gflabel",
+  "order": 124,
+  "enabled": true,
+  "svg": "gf-142.svg"
+}

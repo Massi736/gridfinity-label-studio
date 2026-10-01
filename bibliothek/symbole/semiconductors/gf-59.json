@@ -1,0 +1,10 @@
+{
+  "id": "gf-59",
+  "name": "LED · COMMON",
+  "category": "semiconductors",
+  "keywords": "Diode",
+  "source": "gflabel",
+  "order": 41,
+  "enabled": true,
+  "svg": "gf-59.svg"
+}

@@ -1,0 +1,10 @@
+{
+  "id": "gf-113",
+  "name": "Potentiometer (IEEE/ANSI) · IEEE",
+  "category": "passive",
+  "keywords": "Widerstand",
+  "source": "gflabel",
+  "order": 95,
+  "enabled": true,
+  "svg": "gf-113.svg"
+}

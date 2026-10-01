@@ -1,0 +1,11 @@
+{
+  "id": "mw-fastener",
+  "name": "Schraube konfigurieren",
+  "category": "fasteners",
+  "keywords": "fastener screw bolt torx schrauben",
+  "source": "Konfigurator",
+  "order": 0,
+  "enabled": true,
+  "type": "configurable-screw",
+  "alignment": "center"
+}

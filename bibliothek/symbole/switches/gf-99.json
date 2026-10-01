@@ -1,0 +1,10 @@
+{
+  "id": "gf-99",
+  "name": "SPST Relay Normally-Closed · IEEE",
+  "category": "switches",
+  "keywords": "Relais",
+  "source": "gflabel",
+  "order": 81,
+  "enabled": true,
+  "svg": "gf-99.svg"
+}

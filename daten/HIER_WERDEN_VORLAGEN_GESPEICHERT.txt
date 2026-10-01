@@ -1,0 +1,2 @@
+Beim ersten Start wird hier label-studio.sqlite3 erzeugt.
+Zur Sicherung den Server beenden und diesen Ordner kopieren.

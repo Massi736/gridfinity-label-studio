@@ -1,0 +1,10 @@
+[
+  [
+    "bolt(20,round)",
+    "cannot access local variable 'direction' where it is not associated with a value"
+  ],
+  [
+    "cullbolt(hex,wafer)",
+    "cannot access local variable 'head_connector' where it is not associated with a value"
+  ]
+]

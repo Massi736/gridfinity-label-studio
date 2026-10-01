@@ -1,0 +1,10 @@
+{
+  "id": "gf-45",
+  "name": "Buzzer · COMMON",
+  "category": "signals",
+  "keywords": "Audio",
+  "source": "gflabel",
+  "order": 27,
+  "enabled": true,
+  "svg": "gf-45.svg"
+}

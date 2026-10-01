@@ -1,0 +1,12 @@
+{
+  "id": "gf-15",
+  "name": "Kreuzschlitz",
+  "category": "fasteners",
+  "keywords": "head(phillips)",
+  "source": "gflabel",
+  "order": 14,
+  "enabled": true,
+  "svg": "gf-15.svg",
+  "alignment": "center",
+  "referenceHeight": 37.79529
+}

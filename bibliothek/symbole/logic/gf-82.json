@@ -1,0 +1,10 @@
+{
+  "id": "gf-82",
+  "name": "Logic NOR · COMMON",
+  "category": "logic",
+  "keywords": "symbol(ic-com-logic-nor)",
+  "source": "gflabel",
+  "order": 64,
+  "enabled": true,
+  "svg": "gf-82.svg"
+}

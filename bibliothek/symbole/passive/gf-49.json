@@ -1,0 +1,10 @@
+{
+  "id": "gf-49",
+  "name": "Variable Capacitor · IEC",
+  "category": "passive",
+  "keywords": "Kondensator",
+  "source": "gflabel",
+  "order": 31,
+  "enabled": true,
+  "svg": "gf-49.svg"
+}

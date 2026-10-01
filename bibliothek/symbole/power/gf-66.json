@@ -1,0 +1,10 @@
+{
+  "id": "gf-66",
+  "name": "Common/Earth Ground · COMMON",
+  "category": "power",
+  "keywords": "Masse Erde",
+  "source": "gflabel",
+  "order": 48,
+  "enabled": true,
+  "svg": "gf-66.svg"
+}

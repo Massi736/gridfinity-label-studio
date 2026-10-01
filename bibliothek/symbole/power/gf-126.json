@@ -1,0 +1,10 @@
+{
+  "id": "gf-126",
+  "name": "Controlled Current Source · COMMON",
+  "category": "power",
+  "keywords": "symbol(source-com-current-controlled)",
+  "source": "gflabel",
+  "order": 108,
+  "enabled": true,
+  "svg": "gf-126.svg"
+}

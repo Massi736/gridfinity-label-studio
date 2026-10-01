@@ -1,0 +1,10 @@
+{
+  "id": "gf-86",
+  "name": "Variable Inductor · COMMON",
+  "category": "passive",
+  "keywords": "Spule",
+  "source": "gflabel",
+  "order": 68,
+  "enabled": true,
+  "svg": "gf-86.svg"
+}

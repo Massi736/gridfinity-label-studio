@@ -1,0 +1,10 @@
+{
+  "id": "gf-117",
+  "name": "Trimmer / Trim-Pot · IEC",
+  "category": "passive",
+  "keywords": "Widerstand",
+  "source": "gflabel",
+  "order": 99,
+  "enabled": true,
+  "svg": "gf-117.svg"
+}

@@ -1,0 +1,12 @@
+{
+  "id": "gf-3",
+  "name": "Gewindeeinsatz",
+  "category": "nuts",
+  "keywords": "threaded_insert",
+  "source": "gflabel",
+  "order": 4,
+  "enabled": true,
+  "svg": "gf-3.svg",
+  "alignment": "center",
+  "referenceHeight": 37.83309
+}

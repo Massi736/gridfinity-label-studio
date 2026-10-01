@@ -1,0 +1,12 @@
+{
+  "id": "gf-23",
+  "name": "Dreikant",
+  "category": "fasteners",
+  "keywords": "head(triangle)",
+  "source": "gflabel",
+  "order": 18,
+  "enabled": true,
+  "svg": "gf-23.svg",
+  "alignment": "center",
+  "referenceHeight": 37.79529
+}

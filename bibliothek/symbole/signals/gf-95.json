@@ -1,0 +1,10 @@
+{
+  "id": "gf-95",
+  "name": "Digital-to-Analog (DTA) Converter · COMMON",
+  "category": "signals",
+  "keywords": "symbol(miscellaneous-com-dac)",
+  "source": "gflabel",
+  "order": 77,
+  "enabled": true,
+  "svg": "gf-95.svg"
+}

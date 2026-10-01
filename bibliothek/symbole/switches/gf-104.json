@@ -1,0 +1,10 @@
+{
+  "id": "gf-104",
+  "name": "SPST Relay Normally-Open (Common Style) · COMMON",
+  "category": "switches",
+  "keywords": "Relais",
+  "source": "gflabel",
+  "order": 86,
+  "enabled": true,
+  "svg": "gf-104.svg"
+}

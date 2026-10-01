@@ -1,0 +1,10 @@
+{
+  "id": "gf-51",
+  "name": "Polarized Capacitor · IEC",
+  "category": "passive",
+  "keywords": "Kondensator",
+  "source": "gflabel",
+  "order": 33,
+  "enabled": true,
+  "svg": "gf-51.svg"
+}

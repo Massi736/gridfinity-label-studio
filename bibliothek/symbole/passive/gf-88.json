@@ -1,0 +1,10 @@
+{
+  "id": "gf-88",
+  "name": "Inductor (Magnetic/Ferrite Core) · COMMON",
+  "category": "passive",
+  "keywords": "Spule",
+  "source": "gflabel",
+  "order": 70,
+  "enabled": true,
+  "svg": "gf-88.svg"
+}

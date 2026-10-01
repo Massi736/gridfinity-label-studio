@@ -1,0 +1,10 @@
+{
+  "id": "gf-52",
+  "name": "Feedthrough Capacitor · COMMON",
+  "category": "passive",
+  "keywords": "Kondensator",
+  "source": "gflabel",
+  "order": 34,
+  "enabled": true,
+  "svg": "gf-52.svg"
+}

@@ -1,0 +1,10 @@
+{
+  "id": "gf-57",
+  "name": "Shockley Diode · COMMON",
+  "category": "semiconductors",
+  "keywords": "Diode",
+  "source": "gflabel",
+  "order": 39,
+  "enabled": true,
+  "svg": "gf-57.svg"
+}

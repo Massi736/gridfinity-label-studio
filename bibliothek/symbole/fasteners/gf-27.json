@@ -1,0 +1,12 @@
+{
+  "id": "gf-27",
+  "name": "Sechskantkopf",
+  "category": "fasteners",
+  "keywords": "hexhead",
+  "source": "gflabel",
+  "order": 20,
+  "enabled": true,
+  "svg": "gf-27.svg",
+  "alignment": "center",
+  "referenceHeight": 37.79529
+}

@@ -1,0 +1,10 @@
+{
+  "id": "gf-91",
+  "name": "Probe Point · COMMON",
+  "category": "signals",
+  "keywords": "symbol(miscellaneous-com-probe_point)",
+  "source": "gflabel",
+  "order": 73,
+  "enabled": true,
+  "svg": "gf-91.svg"
+}

@@ -1,0 +1,12 @@
+{
+  "id": "mw-nut_nylon",
+  "name": "Nylon-Stoppmutter",
+  "category": "nuts",
+  "keywords": "",
+  "source": "MakerWorld",
+  "order": 137,
+  "enabled": true,
+  "svg": "mw-nut_nylon.svg",
+  "alignment": "center",
+  "referenceHeight": 10.0
+}

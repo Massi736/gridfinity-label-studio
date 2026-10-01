@@ -1,0 +1,10 @@
+{
+  "id": "gf-71",
+  "name": "Comparator · COMMON",
+  "category": "logic",
+  "keywords": "symbol(ic-com-comparator)",
+  "source": "gflabel",
+  "order": 53,
+  "enabled": true,
+  "svg": "gf-71.svg"
+}

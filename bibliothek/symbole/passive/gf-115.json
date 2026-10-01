@@ -1,0 +1,10 @@
+{
+  "id": "gf-115",
+  "name": "Resistor · IEC",
+  "category": "passive",
+  "keywords": "Widerstand",
+  "source": "gflabel",
+  "order": 97,
+  "enabled": true,
+  "svg": "gf-115.svg"
+}

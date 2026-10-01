@@ -1,0 +1,12 @@
+{
+  "id": "mw-crimp_spade_open",
+  "name": "Flachstecker · offen",
+  "category": "connectors",
+  "keywords": "",
+  "source": "Label Studio · vereinheitlichte Zeichnung nach bisheriger Vorlage",
+  "order": 142,
+  "enabled": true,
+  "svg": "mw-crimp_spade_open.svg",
+  "referenceHeight": 8,
+  "alignment": "left"
+}

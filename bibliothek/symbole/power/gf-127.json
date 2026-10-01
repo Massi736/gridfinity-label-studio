@@ -1,0 +1,10 @@
+{
+  "id": "gf-127",
+  "name": "Battery (Single Cell) · COMMON",
+  "category": "power",
+  "keywords": "symbol(source-com-battery-single)",
+  "source": "gflabel",
+  "order": 109,
+  "enabled": true,
+  "svg": "gf-127.svg"
+}

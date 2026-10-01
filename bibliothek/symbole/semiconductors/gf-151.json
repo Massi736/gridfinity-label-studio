@@ -1,0 +1,10 @@
+{
+  "id": "gf-151",
+  "name": "N-Channel MOSFET in Enhancement Mode · COMMON",
+  "category": "semiconductors",
+  "keywords": "Transistor",
+  "source": "gflabel",
+  "order": 133,
+  "enabled": true,
+  "svg": "gf-151.svg"
+}

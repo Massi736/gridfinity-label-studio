@@ -1,0 +1,10 @@
+{
+  "id": "gf-138",
+  "name": "Pushbutton Two-Circuit · COMMON",
+  "category": "switches",
+  "keywords": "Schalter",
+  "source": "gflabel",
+  "order": 120,
+  "enabled": true,
+  "svg": "gf-138.svg"
+}

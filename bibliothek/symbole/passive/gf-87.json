@@ -1,0 +1,10 @@
+{
+  "id": "gf-87",
+  "name": "Tapped Inductor · COMMON",
+  "category": "passive",
+  "keywords": "Spule",
+  "source": "gflabel",
+  "order": 69,
+  "enabled": true,
+  "svg": "gf-87.svg"
+}

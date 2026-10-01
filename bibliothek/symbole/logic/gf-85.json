@@ -1,0 +1,10 @@
+{
+  "id": "gf-85",
+  "name": "Logic XOR · COMMON",
+  "category": "logic",
+  "keywords": "symbol(ic-com-logic-xor)",
+  "source": "gflabel",
+  "order": 67,
+  "enabled": true,
+  "svg": "gf-85.svg"
+}

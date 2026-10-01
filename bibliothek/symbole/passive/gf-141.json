@@ -1,0 +1,10 @@
+{
+  "id": "gf-141",
+  "name": "Transformer · COMMON",
+  "category": "passive",
+  "keywords": "Transformator",
+  "source": "gflabel",
+  "order": 123,
+  "enabled": true,
+  "svg": "gf-141.svg"
+}

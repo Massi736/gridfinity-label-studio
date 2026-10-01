@@ -1,0 +1,12 @@
+{
+  "id": "gf-19",
+  "name": "Schlitz",
+  "category": "fasteners",
+  "keywords": "head(slot)",
+  "source": "gflabel",
+  "order": 16,
+  "enabled": true,
+  "svg": "gf-19.svg",
+  "alignment": "center",
+  "referenceHeight": 37.79532
+}

@@ -1,0 +1,10 @@
+{
+  "id": "gf-140",
+  "name": "Double-Center-Tapped Transformer · COMMON",
+  "category": "passive",
+  "keywords": "Transformator",
+  "source": "gflabel",
+  "order": 122,
+  "enabled": true,
+  "svg": "gf-140.svg"
+}

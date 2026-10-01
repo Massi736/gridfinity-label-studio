@@ -1,0 +1,10 @@
+{
+  "id": "gf-77",
+  "name": "Simple-SR Flip-Flop · COMMON",
+  "category": "logic",
+  "keywords": "symbol(ic-com-flipflop-simplesr)",
+  "source": "gflabel",
+  "order": 59,
+  "enabled": true,
+  "svg": "gf-77.svg"
+}

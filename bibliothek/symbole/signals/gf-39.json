@@ -1,0 +1,10 @@
+{
+  "id": "gf-39",
+  "name": "Looped Antenna · COMMON",
+  "category": "signals",
+  "keywords": "Antenne",
+  "source": "gflabel",
+  "order": 21,
+  "enabled": true,
+  "svg": "gf-39.svg"
+}

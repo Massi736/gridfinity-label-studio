@@ -1,0 +1,10 @@
+{
+  "id": "gf-148",
+  "name": "NPN Transistor · COMMON",
+  "category": "semiconductors",
+  "keywords": "Transistor",
+  "source": "gflabel",
+  "order": 130,
+  "enabled": true,
+  "svg": "gf-148.svg"
+}

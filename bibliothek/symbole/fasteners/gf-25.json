@@ -1,0 +1,12 @@
+{
+  "id": "gf-25",
+  "name": "Kreuz + Schlitz",
+  "category": "fasteners",
+  "keywords": "head(phillipsslot)",
+  "source": "gflabel",
+  "order": 19,
+  "enabled": true,
+  "svg": "gf-25.svg",
+  "alignment": "center",
+  "referenceHeight": 37.79532
+}

@@ -1,0 +1,12 @@
+{
+  "id": "gf-7",
+  "name": "T-Nut",
+  "category": "nuts",
+  "keywords": "tnut",
+  "source": "gflabel",
+  "order": 8,
+  "enabled": true,
+  "svg": "gf-7.svg",
+  "alignment": "center",
+  "referenceHeight": 37.79529
+}

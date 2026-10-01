@@ -1,0 +1,10 @@
+{
+  "id": "gf-147",
+  "name": "PNP Transistor · COMMON",
+  "category": "semiconductors",
+  "keywords": "Transistor",
+  "source": "gflabel",
+  "order": 129,
+  "enabled": true,
+  "svg": "gf-147.svg"
+}

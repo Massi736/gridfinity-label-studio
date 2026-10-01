@@ -1,0 +1,10 @@
+{
+  "id": "gf-121",
+  "name": "Photoresistor · IEC",
+  "category": "passive",
+  "keywords": "Widerstand",
+  "source": "gflabel",
+  "order": 103,
+  "enabled": true,
+  "svg": "gf-121.svg"
+}

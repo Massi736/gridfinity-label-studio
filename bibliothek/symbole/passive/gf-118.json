@@ -1,0 +1,10 @@
+{
+  "id": "gf-118",
+  "name": "Thermistor · IEC",
+  "category": "passive",
+  "keywords": "Widerstand",
+  "source": "gflabel",
+  "order": 100,
+  "enabled": true,
+  "svg": "gf-118.svg"
+}

@@ -1,0 +1,12 @@
+{
+  "id": "gf-4",
+  "name": "Vierkantmutter",
+  "category": "nuts",
+  "keywords": "square_nut",
+  "source": "gflabel",
+  "order": 5,
+  "enabled": true,
+  "svg": "gf-4.svg",
+  "alignment": "center",
+  "referenceHeight": 37.79529
+}

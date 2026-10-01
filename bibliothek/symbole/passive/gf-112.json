@@ -1,0 +1,10 @@
+{
+  "id": "gf-112",
+  "name": "Rheostat / Variable Resistor (IEEE/ANSI) · IEEE",
+  "category": "passive",
+  "keywords": "Widerstand",
+  "source": "gflabel",
+  "order": 94,
+  "enabled": true,
+  "svg": "gf-112.svg"
+}

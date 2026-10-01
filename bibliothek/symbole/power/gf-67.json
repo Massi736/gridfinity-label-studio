@@ -1,0 +1,10 @@
+{
+  "id": "gf-67",
+  "name": "Chassis Ground · COMMON",
+  "category": "power",
+  "keywords": "Masse Erde",
+  "source": "gflabel",
+  "order": 49,
+  "enabled": true,
+  "svg": "gf-67.svg"
+}

@@ -1,0 +1,38 @@
+Lokale Ausgabe vom 08.09.2026
+
+Geprueft in einer Linux-Laufzeit:
+- 149 Bibliothekseintraege; 148 SVG-Symbole entsprechen den bisherigen Konturen
+  einschliesslich Loechern (Abweichung unter 0,0001 Quelleinheiten).
+- HTTP-Assets und JavaScript-MIME-Typen.
+- Schraubenvorlagen speichern, laden, loeschen und nach Server-Neustart laden.
+- Fehlerhafte Konfiguration, fremder Ursprung und Pfadzugriffe abgewiesen.
+- Layout fuer alle Symbole und acht Schriftfamilien.
+- STL von erhabenen, vertieften und buendigen Labels: geschlossene Netze.
+- Mehrfach-Export mit 5 Labels als 3MF und OpenSCAD/STL.
+
+Der Windows-Doppelklickstart und die Browseroberflaeche wurden in dieser
+Linux-Pruefung nicht interaktiv auf einem Windows-PC getestet.
+
+Update 09.09.2026:
+- 149 Symbollayouts: Konturen innerhalb der Labelflaeche.
+- Gemeinsame Mittelpunkte mechanischer Symbole.
+- Alle sechs Preset-Klickaktionen: Einrasten der Mitte auf das Raster.
+- Konfigurierbare automatische Abstaende und vertikale Ausrichtung.
+- Bemassung ein/aus und Ausschluss aus Druck-/SVG-Export.
+- Anschlussmassstab und Aderendhuelsen-Proportionen.
+- Sechs Labelkopien mit erhabenen, vertieften und buendigen Varianten,
+  einschliesslich neuer Vierkantmutter: geschlossene STL-Netze, 3MF und SCAD.
+- Symboluebersicht und Bemassungs-SVG visuell kontrolliert.
+- Windows-Browser nicht interaktiv getestet.
+
+Version 3 (09.09.2026):
+- 145 Eintraege; sechs elektrische Symbole gleicher Breite.
+- Identische linke Pfade aller vier offenen Anschluesse; SVG-Uebersicht visuell geprueft.
+- Aktive Preset-Klickaktionen, Symbolwechsel, Achsenbindung und Koordinatenbezug.
+- Projekt-/Profil-UI-Handler gegen echten lokalen HTTP-/SQLite-Server getestet:
+  Speichern, Wechsel mit Sicherung, Oeffnen mehrerer Labels, Profil anwenden/aktualisieren.
+- Neustartpersistenz, Fehlereingaben und Versionskonflikte.
+- Getrennte Farben in SVG und 3MF; erhabene/buendige Labels jeweils mit vier
+  geschlossenen STL-Netzen (Basis + zwei Textfarben + Symbolfarbe).
+- Alle UI-Feldverweise und eindeutigen IDs geprueft.
+- Kein interaktiver Windows-Browsertest durchgefuehrt.

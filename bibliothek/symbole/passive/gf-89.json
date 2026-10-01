@@ -1,0 +1,10 @@
+{
+  "id": "gf-89",
+  "name": "Ferrite Bead · COMMON",
+  "category": "passive",
+  "keywords": "Spule",
+  "source": "gflabel",
+  "order": 71,
+  "enabled": true,
+  "svg": "gf-89.svg"
+}

@@ -1,0 +1,10 @@
+{
+  "id": "gf-123",
+  "name": "DC Voltage Source · COMMON",
+  "category": "power",
+  "keywords": "symbol(source-com-dc)",
+  "source": "gflabel",
+  "order": 105,
+  "enabled": true,
+  "svg": "gf-123.svg"
+}

@@ -1,0 +1,10 @@
+{
+  "id": "gf-61",
+  "name": "Standard Diode · COMMON",
+  "category": "semiconductors",
+  "keywords": "Diode",
+  "source": "gflabel",
+  "order": 43,
+  "enabled": true,
+  "svg": "gf-61.svg"
+}

@@ -1,0 +1,10 @@
+{
+  "id": "gf-135",
+  "name": "DPDT Switch · COMMON",
+  "category": "switches",
+  "keywords": "Schalter",
+  "source": "gflabel",
+  "order": 117,
+  "enabled": true,
+  "svg": "gf-135.svg"
+}

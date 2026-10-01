@@ -1,0 +1,10 @@
+{
+  "id": "gf-64",
+  "name": "Fuse · IEEE",
+  "category": "power",
+  "keywords": "Sicherung",
+  "source": "gflabel",
+  "order": 46,
+  "enabled": true,
+  "svg": "gf-64.svg"
+}

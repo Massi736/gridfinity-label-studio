@@ -1,0 +1,50 @@
+[
+  {
+    "id": "all",
+    "name": "Alle Symbole"
+  },
+  {
+    "id": "fasteners",
+    "name": "Schrauben & Antriebe"
+  },
+  {
+    "id": "nuts",
+    "name": "Muttern & Gewindeeinsätze"
+  },
+  {
+    "id": "washers",
+    "name": "Scheiben & Sicherungen"
+  },
+  {
+    "id": "connectors",
+    "name": "Elektrische Anschlüsse"
+  },
+  {
+    "id": "passive",
+    "name": "Widerstände, Kondensatoren & Spulen"
+  },
+  {
+    "id": "semiconductors",
+    "name": "Dioden & Transistoren"
+  },
+  {
+    "id": "switches",
+    "name": "Schalter & Relais"
+  },
+  {
+    "id": "logic",
+    "name": "ICs & Logik"
+  },
+  {
+    "id": "power",
+    "name": "Versorgung & Masse"
+  },
+  {
+    "id": "signals",
+    "name": "Signal, Audio & Licht"
+  },
+  {
+    "id": "other",
+    "name": "Magnete & Grundformen"
+  }
+]

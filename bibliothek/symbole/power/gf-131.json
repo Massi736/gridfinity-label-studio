@@ -1,0 +1,10 @@
+{
+  "id": "gf-131",
+  "name": "Triangle Wave Generator · COMMON",
+  "category": "power",
+  "keywords": "symbol(source-com-triangle)",
+  "source": "gflabel",
+  "order": 113,
+  "enabled": true,
+  "svg": "gf-131.svg"
+}

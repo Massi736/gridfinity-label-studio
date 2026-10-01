@@ -1,0 +1,10 @@
+{
+  "id": "gf-92",
+  "name": "Optocoupler · COMMON",
+  "category": "signals",
+  "keywords": "symbol(miscellaneous-com-optocoupler)",
+  "source": "gflabel",
+  "order": 74,
+  "enabled": true,
+  "svg": "gf-92.svg"
+}

@@ -1,0 +1,10 @@
+{
+  "id": "gf-78",
+  "name": "Buffer · COMMON",
+  "category": "logic",
+  "keywords": "symbol(ic-com-logic-buffer)",
+  "source": "gflabel",
+  "order": 60,
+  "enabled": true,
+  "svg": "gf-78.svg"
+}

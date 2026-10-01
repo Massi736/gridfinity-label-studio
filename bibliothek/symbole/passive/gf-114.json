@@ -1,0 +1,10 @@
+{
+  "id": "gf-114",
+  "name": "Photoresistor (IEEE/ANSI) · IEEE",
+  "category": "passive",
+  "keywords": "Widerstand",
+  "source": "gflabel",
+  "order": 96,
+  "enabled": true,
+  "svg": "gf-114.svg"
+}

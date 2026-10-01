@@ -1,0 +1,10 @@
+{
+  "id": "gf-108",
+  "name": "Resistor (IEEE/ANSI) · IEEE",
+  "category": "passive",
+  "keywords": "Widerstand",
+  "source": "gflabel",
+  "order": 90,
+  "enabled": true,
+  "svg": "gf-108.svg"
+}

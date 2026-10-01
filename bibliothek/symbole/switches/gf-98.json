@@ -1,0 +1,10 @@
+{
+  "id": "gf-98",
+  "name": "SPST Relay Normally-Open · IEEE",
+  "category": "switches",
+  "keywords": "Relais",
+  "source": "gflabel",
+  "order": 80,
+  "enabled": true,
+  "svg": "gf-98.svg"
+}

@@ -1,0 +1,12 @@
+{
+  "id": "mw-tnut_1",
+  "name": "T-Nut · Seite",
+  "category": "nuts",
+  "keywords": "",
+  "source": "MakerWorld",
+  "order": 139,
+  "enabled": true,
+  "svg": "mw-tnut_1.svg",
+  "alignment": "center",
+  "referenceHeight": 14.56
+}

@@ -1,0 +1,10 @@
+{
+  "id": "gf-97",
+  "name": "Analog-to-Digital (ATD) Converter · COMMON",
+  "category": "signals",
+  "keywords": "symbol(miscellaneous-com-adc)",
+  "source": "gflabel",
+  "order": 79,
+  "enabled": true,
+  "svg": "gf-97.svg"
+}

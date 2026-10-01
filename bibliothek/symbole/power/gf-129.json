@@ -1,0 +1,10 @@
+{
+  "id": "gf-129",
+  "name": "AC Voltage Source · COMMON",
+  "category": "power",
+  "keywords": "symbol(source-com-ac)",
+  "source": "gflabel",
+  "order": 111,
+  "enabled": true,
+  "svg": "gf-129.svg"
+}

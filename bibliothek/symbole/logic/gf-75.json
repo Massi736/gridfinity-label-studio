@@ -1,0 +1,10 @@
+{
+  "id": "gf-75",
+  "name": "Gated-D Flip-Flop · COMMON",
+  "category": "logic",
+  "keywords": "symbol(ic-com-flipflop-gatedd)",
+  "source": "gflabel",
+  "order": 57,
+  "enabled": true,
+  "svg": "gf-75.svg"
+}

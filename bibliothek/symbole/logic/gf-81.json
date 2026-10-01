@@ -1,0 +1,10 @@
+{
+  "id": "gf-81",
+  "name": "Logic NAND · COMMON",
+  "category": "logic",
+  "keywords": "symbol(ic-com-logic-nand)",
+  "source": "gflabel",
+  "order": 63,
+  "enabled": true,
+  "svg": "gf-81.svg"
+}

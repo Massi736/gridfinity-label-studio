@@ -1,0 +1,12 @@
+{
+  "id": "gf-2",
+  "name": "Federring",
+  "category": "washers",
+  "keywords": "lockwasher",
+  "source": "gflabel",
+  "order": 3,
+  "enabled": true,
+  "svg": "gf-2.svg",
+  "alignment": "center",
+  "referenceHeight": 37.79471
+}

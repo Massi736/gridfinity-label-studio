@@ -1,0 +1,10 @@
+{
+  "id": "gf-90",
+  "name": "Inductor (Air-Core) · COMMON",
+  "category": "passive",
+  "keywords": "Spule",
+  "source": "gflabel",
+  "order": 72,
+  "enabled": true,
+  "svg": "gf-90.svg"
+}

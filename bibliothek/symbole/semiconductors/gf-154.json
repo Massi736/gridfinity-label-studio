@@ -1,0 +1,10 @@
+{
+  "id": "gf-154",
+  "name": "P-Channel MOSFET in Enhancement Mode · COMMON",
+  "category": "semiconductors",
+  "keywords": "Transistor",
+  "source": "gflabel",
+  "order": 136,
+  "enabled": true,
+  "svg": "gf-154.svg"
+}

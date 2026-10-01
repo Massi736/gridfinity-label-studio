@@ -1,0 +1,10 @@
+{
+  "id": "gf-46",
+  "name": "Capacitor · IEEE",
+  "category": "passive",
+  "keywords": "Kondensator",
+  "source": "gflabel",
+  "order": 28,
+  "enabled": true,
+  "svg": "gf-46.svg"
+}

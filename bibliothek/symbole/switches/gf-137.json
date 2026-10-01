@@ -1,0 +1,10 @@
+{
+  "id": "gf-137",
+  "name": "Pushbutton Normally-Open · COMMON",
+  "category": "switches",
+  "keywords": "Schalter",
+  "source": "gflabel",
+  "order": 119,
+  "enabled": true,
+  "svg": "gf-137.svg"
+}

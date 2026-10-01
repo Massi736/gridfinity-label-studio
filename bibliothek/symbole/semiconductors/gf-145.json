@@ -1,0 +1,10 @@
+{
+  "id": "gf-145",
+  "name": "PNP Darlington Pair · COMMON",
+  "category": "semiconductors",
+  "keywords": "Transistor",
+  "source": "gflabel",
+  "order": 127,
+  "enabled": true,
+  "svg": "gf-145.svg"
+}

@@ -1,0 +1,12 @@
+{
+  "id": "mw-crimp_receptacle_open",
+  "name": "Flachsteckhülse · offen",
+  "category": "connectors",
+  "keywords": "",
+  "source": "Label Studio · vereinheitlichte Zeichnung nach bisheriger Vorlage",
+  "order": 143,
+  "enabled": true,
+  "svg": "mw-crimp_receptacle_open.svg",
+  "referenceHeight": 8,
+  "alignment": "left"
+}

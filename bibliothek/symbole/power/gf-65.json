@@ -1,0 +1,10 @@
+{
+  "id": "gf-65",
+  "name": "Digital/Signal Ground · COMMON",
+  "category": "power",
+  "keywords": "Masse Erde",
+  "source": "gflabel",
+  "order": 47,
+  "enabled": true,
+  "svg": "gf-65.svg"
+}

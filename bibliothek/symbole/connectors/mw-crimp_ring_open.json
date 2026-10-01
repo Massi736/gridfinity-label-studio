@@ -1,0 +1,12 @@
+{
+  "id": "mw-crimp_ring_open",
+  "name": "Ringkabelschuh · offen",
+  "category": "connectors",
+  "keywords": "",
+  "source": "Label Studio · vereinheitlichte Zeichnung nach bisheriger Vorlage",
+  "order": 144,
+  "enabled": true,
+  "svg": "mw-crimp_ring_open.svg",
+  "referenceHeight": 8,
+  "alignment": "left"
+}

@@ -1,0 +1,10 @@
+{
+  "id": "gf-58",
+  "name": "Photodiode · COMMON",
+  "category": "semiconductors",
+  "keywords": "Diode",
+  "source": "gflabel",
+  "order": 40,
+  "enabled": true,
+  "svg": "gf-58.svg"
+}

@@ -1,0 +1,10 @@
+{
+  "id": "gf-106",
+  "name": "SPDT Relay (Common Style) · COMMON",
+  "category": "switches",
+  "keywords": "Relais",
+  "source": "gflabel",
+  "order": 88,
+  "enabled": true,
+  "svg": "gf-106.svg"
+}

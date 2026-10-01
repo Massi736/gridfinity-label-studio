@@ -1,0 +1,10 @@
+{
+  "id": "gf-125",
+  "name": "Current Source · COMMON",
+  "category": "power",
+  "keywords": "symbol(source-com-current)",
+  "source": "gflabel",
+  "order": 107,
+  "enabled": true,
+  "svg": "gf-125.svg"
+}

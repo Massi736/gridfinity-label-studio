@@ -1,0 +1,10 @@
+{
+  "id": "gf-124",
+  "name": "Controlled DC Source · COMMON",
+  "category": "power",
+  "keywords": "symbol(source-com-dc-controlled)",
+  "source": "gflabel",
+  "order": 106,
+  "enabled": true,
+  "svg": "gf-124.svg"
+}

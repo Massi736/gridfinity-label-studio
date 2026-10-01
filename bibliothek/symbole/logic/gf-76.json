@@ -1,0 +1,10 @@
+{
+  "id": "gf-76",
+  "name": "Gated-SR Flip-Flop · COMMON",
+  "category": "logic",
+  "keywords": "symbol(ic-com-flipflop-gatedsr)",
+  "source": "gflabel",
+  "order": 58,
+  "enabled": true,
+  "svg": "gf-76.svg"
+}

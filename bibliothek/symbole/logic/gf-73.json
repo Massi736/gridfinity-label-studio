@@ -1,0 +1,10 @@
+{
+  "id": "gf-73",
+  "name": "Clocked-JK Flip-Flop · COMMON",
+  "category": "logic",
+  "keywords": "symbol(ic-com-flipflop-clockedjk)",
+  "source": "gflabel",
+  "order": 55,
+  "enabled": true,
+  "svg": "gf-73.svg"
+}

@@ -1,0 +1,10 @@
+{
+  "id": "gf-84",
+  "name": "Logic XNOR · COMMON",
+  "category": "logic",
+  "keywords": "symbol(ic-com-logic-xnor)",
+  "source": "gflabel",
+  "order": 66,
+  "enabled": true,
+  "svg": "gf-84.svg"
+}

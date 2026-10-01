@@ -1,0 +1,10 @@
+{
+  "id": "gf-119",
+  "name": "Rheostat / Variable Resistor · IEC",
+  "category": "passive",
+  "keywords": "Widerstand",
+  "source": "gflabel",
+  "order": 101,
+  "enabled": true,
+  "svg": "gf-119.svg"
+}

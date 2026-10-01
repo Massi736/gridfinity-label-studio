@@ -1,0 +1,10 @@
+{
+  "id": "gf-44",
+  "name": "Loudspeaker / Speaker · COMMON",
+  "category": "signals",
+  "keywords": "Audio",
+  "source": "gflabel",
+  "order": 26,
+  "enabled": true,
+  "svg": "gf-44.svg"
+}

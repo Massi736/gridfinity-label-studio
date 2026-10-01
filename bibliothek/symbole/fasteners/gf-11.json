@@ -1,0 +1,12 @@
+{
+  "id": "gf-11",
+  "name": "Innensechskant",
+  "category": "fasteners",
+  "keywords": "head(hex)",
+  "source": "gflabel",
+  "order": 12,
+  "enabled": true,
+  "svg": "gf-11.svg",
+  "alignment": "center",
+  "referenceHeight": 37.79529
+}

@@ -1,0 +1,12 @@
+{
+  "id": "gf-8",
+  "name": "Magnet",
+  "category": "other",
+  "keywords": "magnet",
+  "source": "gflabel",
+  "order": 9,
+  "enabled": true,
+  "svg": "gf-8.svg",
+  "alignment": "center",
+  "referenceHeight": 30.41531
+}

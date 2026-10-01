@@ -1,0 +1,10 @@
+{
+  "id": "gf-144",
+  "name": "JFET-N · COMMON",
+  "category": "semiconductors",
+  "keywords": "Transistor",
+  "source": "gflabel",
+  "order": 126,
+  "enabled": true,
+  "svg": "gf-144.svg"
+}

@@ -1,0 +1,10 @@
+{
+  "id": "gf-10",
+  "name": "Potentiometer",
+  "category": "passive",
+  "keywords": "variable_resistor",
+  "source": "gflabel",
+  "order": 11,
+  "enabled": true,
+  "svg": "gf-10.svg"
+}

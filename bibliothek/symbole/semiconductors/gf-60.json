@@ -1,0 +1,10 @@
+{
+  "id": "gf-60",
+  "name": "LASER Diode · COMMON",
+  "category": "semiconductors",
+  "keywords": "Diode",
+  "source": "gflabel",
+  "order": 42,
+  "enabled": true,
+  "svg": "gf-60.svg"
+}

@@ -1,0 +1,12 @@
+{
+  "id": "gf-0",
+  "name": "Sechskantmutter",
+  "category": "nuts",
+  "keywords": "nut",
+  "source": "gflabel",
+  "order": 1,
+  "enabled": true,
+  "svg": "gf-0.svg",
+  "alignment": "center",
+  "referenceHeight": 37.79529
+}
