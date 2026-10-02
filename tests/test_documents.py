@@ -72,6 +72,35 @@ class StorageTests(unittest.TestCase):
             self.save('projects', 'm3', project(), 1)
         self.assertEqual(documents.get(self.db, 'projects', 'm3')['data']['folderId'], 'folder')
 
+    def test_delete_is_scoped_and_survives_restart(self):
+        self.folder('folder')
+        self.save('projects', 'same-id', project('folder'))
+        self.save('profiles', 'same-id', {'schema': 1, 'layout': {'width': 2}})
+        with self.db:
+            self.assertTrue(documents.delete(self.db, 'profiles', 'same-id', {'revision': 1}))
+        self.assertIsNotNone(documents.get(self.db, 'projects', 'same-id'))
+        self.assertIsNotNone(documents.get(self.db, 'folders', 'folder'))
+        with self.db:
+            self.assertTrue(documents.delete(self.db, 'projects', 'same-id', {'revision': 1}))
+        self.db.close()
+        self.db = sqlite3.connect(self.path)
+        self.assertIsNone(documents.get(self.db, 'projects', 'same-id'))
+        self.assertIsNone(documents.get(self.db, 'profiles', 'same-id'))
+        self.assertIsNotNone(documents.get(self.db, 'folders', 'folder'))
+
+    def test_delete_rejects_stale_revision_and_folders(self):
+        self.folder('folder')
+        self.save('projects', 'p', project())
+        self.save('projects', 'p', project('folder'), 1)
+        with self.assertRaises(documents.Conflict):
+            with self.db:
+                documents.delete(self.db, 'projects', 'p', {'revision': 1})
+        with self.assertRaises(ValueError):
+            with self.db:
+                documents.delete(self.db, 'folders', 'folder', {'revision': 1})
+        self.assertIsNotNone(documents.get(self.db, 'projects', 'p'))
+        self.assertIsNotNone(documents.get(self.db, 'folders', 'folder'))
+
 
 if __name__ == '__main__':
     unittest.main()

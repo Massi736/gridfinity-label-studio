@@ -232,8 +232,6 @@ class Handler(SimpleHTTPRequestHandler):
 
     def save_document(self, delete=False):
         _, _, kind, identifier = urlsplit(self.path).path.split('/')
-        if delete:
-            return self.respond(405, {'error': 'Projekte werden über Speichern und Öffnen verwaltet.'})
         try:
             size = int(self.headers.get('Content-Length', '0'))
             limit = 40_000_000 if kind == 'projects' else 100_000
@@ -241,8 +239,14 @@ class Handler(SimpleHTTPRequestHandler):
                 raise ValueError('Projekt/Profil ist zu gross (Projekt maximal 40 MB).')
             payload = json.loads(self.rfile.read(size))
             with connect() as db:
-                entry = documents.save(db, kind, identifier, payload)
-            self.respond(200, {'entry': entry})
+                if delete:
+                    removed = documents.delete(db, kind, identifier, payload)
+                else:
+                    entry = documents.save(db, kind, identifier, payload)
+            if delete:
+                self.respond(200 if removed else 404, {'deleted': True} if removed else {'error': 'Nicht gefunden.'})
+            else:
+                self.respond(200, {'entry': entry})
         except documents.Conflict as error:
             self.respond(409, {'error': str(error)})
         except (ValueError, OSError, sqlite3.Error) as error:

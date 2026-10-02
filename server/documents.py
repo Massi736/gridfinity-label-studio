@@ -84,3 +84,18 @@ def save(db, kind, identifier, payload):
     now = datetime.datetime.now(datetime.timezone.utc).isoformat()
     db.execute('INSERT INTO documents VALUES (?,?,?,?,?,?) ON CONFLICT(kind,id) DO UPDATE SET name=excluded.name,data=excluded.data,revision=excluded.revision,updated_at=excluded.updated_at', (kind, identifier, payload['name'].strip(), encoded, revision, now))
     return get(db, kind, identifier)
+
+
+def delete(db, kind, identifier, payload):
+    if kind not in ('projects', 'profiles'):
+        raise ValueError('Nur Projekte und Anordnungsprofile können gelöscht werden.')
+    if not isinstance(payload, dict) or type(payload.get('revision')) is not int:
+        raise ValueError('Speicherversion fehlt.')
+    db.execute('BEGIN IMMEDIATE')
+    old = get(db, kind, identifier)
+    if not old:
+        return False
+    if old['revision'] != payload['revision']:
+        raise Conflict('In einem anderen Fenster geändert. Bitte die Liste aktualisieren, bevor du löschst.')
+    db.execute('DELETE FROM documents WHERE kind=? AND id=?', (kind, identifier))
+    return True

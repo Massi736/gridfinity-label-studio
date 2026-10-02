@@ -81,3 +81,14 @@ In **Projekte & Labels** kannst du Ordner und Unterordner anlegen. Die Pfadleist
 Alle vier Farbauswahlen öffnen eine Palette mit **Designfarben**, **Standardfarben** und **zuletzt verwendeten Farben**. Ein Klick auf ein Farbkästchen übernimmt die Farbe. Eigene Farben lassen sich als HEX-Code eingeben; die Pfeiltasten wechseln zwischen Kästchen und Escape schliesst die Palette. Gespeicherte Projekte behalten ihre bisherigen Farben.
 
 Entwicklungsprüfungen: `python -m unittest discover -s tests -v` und `node --test tests/profiles-and-colors.test.mjs`.
+
+
+## Explorer, Löschen und geschützte Profile
+
+Die Projektübersicht besitzt jetzt einen aufklappbaren **Ordnerbaum** links und eine **Dateiliste** mit Name, Typ und Änderungsdatum rechts. Einfach anklicken wählt einen Eintrag aus; Doppelklick oder Enter öffnet einen Ordner bzw. ein Projekt. Mit ↑ oder der Pfadleiste wechselst du zum übergeordneten Ordner.
+
+Ein ausgewähltes Projekt lässt sich mit **Projekt löschen** entfernen. Beim Löschen des aktuell geöffneten Projekts wird nach Bestätigung ein leeres neues Projekt angezeigt; ungespeicherte Änderungen dieses Projekts werden verworfen. Andere Projekte und Ordner bleiben erhalten. Ein eigenes Anordnungsprofil wählst du zuerst unter «Anordnung» aus und löschst es unter «Anordnung als Profil speichern» mit **Profil löschen**. Das Löschen eines Profils verändert keine gespeicherten Labels. Löschvorgänge werden bestätigt und prüfen die Speicherversion, damit Änderungen aus anderen Fenstern nicht unbemerkt verloren gehen.
+
+Eigene Profile werden zunächst **ohne Raster und Positionsgriffe** angezeigt. Positions-, Grössen- und Symboländerungen sind gesperrt; Texte und Farben bleiben bearbeitbar. **Profil bearbeiten** entsperrt die Anordnung. Bei einem freien Rasterprofil öffnet sich dabei die 2D-Ansicht. Mit **Profil speichern** aktualisierst du das Profil und beendest den Bearbeitungsmodus. «Bearbeitung beenden» sperrt die aktuelle Anordnung ohne automatisches Überschreiben des gespeicherten Profils.
+
+Alle JavaScript-Prüfungen: `node --test tests/*.test.mjs`.

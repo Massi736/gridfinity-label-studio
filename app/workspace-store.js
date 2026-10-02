@@ -6,23 +6,55 @@ export async function localAPI(path,options={}){
  const response=await fetch('/api/'+path,{...options,headers:{'Content-Type':'application/json'},signal:AbortSignal.timeout(30000)});
  const data=await response.json();if(!response.ok)throw Error(data.error||'Speichern/Laden fehlgeschlagen.');return data;
 }
-export function createWorkspaceStore({$,getProject,applyProject,newProject,getProfile,applyProfile}){
- let active=null,dirty=false,working=false,browseFolder='',activeProfile=null;
+export function createWorkspaceStore({$,getProject,applyProject,newProject,getProfile,applyProfile,profileStateChanged=()=>{}}){
+ let active=null,dirty=false,working=false,browseFolder='',activeProfile=null,editingProfile=false,explorerSelection=null;
+ const expandedFolders=new Set(['']);
  let projects=[],folders=[],profiles=[];
  const status=text=>$('project-status').textContent=text;
  const sorted=entries=>[...entries].sort((a,b)=>a.name.localeCompare(b.name,'de',{numeric:true}));
  const signature=()=>JSON.stringify(getProfile());
  function changed(){dirty=true;status('Ungespeicherte Änderungen');}
  function folderPath(id){const path=[],seen=new Set();while(id&&!seen.has(id)){seen.add(id);const folder=folders.find(f=>f.id===id);if(!folder)break;path.unshift(folder);id=folder.parentId;}return path;}
+ function updateExplorerSelection(){
+  const project=explorerSelection?.kind==='project'?projects.find(p=>p.id===explorerSelection.id):null;
+  $('project-list').value=project?.id||'';
+  $('project-open').disabled=!explorerSelection;
+  $('project-delete').disabled=!project;
+  for(const row of $('explorer-list').querySelectorAll('tr')){const selected=row.dataset.id===explorerSelection?.id&&row.dataset.kind===explorerSelection?.kind;row.classList.toggle('selected',selected);row.setAttribute('aria-selected',String(selected));}
+ }
  function renderProjects(selected=$('project-list').value){
   const entries=sorted(projects.filter(p=>(p.folderId||'')===browseFolder));
-  $('project-list').replaceChildren(new Option(entries.length?'Projekt auswählen …':'Keine Projekte in diesem Ordner',''),...entries.map(p=>new Option(p.name,p.id)));
-  $('project-list').value=entries.some(p=>p.id===selected)?selected:'';
-  $('project-open').disabled=!$('project-list').value;
-  const childCount=folders.filter(f=>(f.parentId||'')===browseFolder).length;
-  $('folder-status').textContent=`${entries.length} ${entries.length===1?'Projekt':'Projekte'} · ${childCount} ${childCount===1?'Unterordner':'Unterordner'}`;
+  $('project-list').replaceChildren(new Option('Projekt auswählen …',''),...entries.map(p=>new Option(p.name,p.id)));
+  if(entries.some(p=>p.id===selected))explorerSelection={kind:'project',id:selected};
+  else if(explorerSelection?.kind==='project')explorerSelection=null;
+  const children=sorted(folders.filter(f=>(f.parentId||'')===browseFolder));
+  if(explorerSelection?.kind==='folder'&&!children.some(f=>f.id===explorerSelection.id))explorerSelection=null;
+  const list=$('explorer-list');list.replaceChildren();
+  for(const entry of [...children.map(f=>({...f,kind:'folder'})),...entries.map(p=>({...p,kind:'project'}))]){
+   const row=document.createElement('tr');row.tabIndex=0;row.dataset.id=entry.id;row.dataset.kind=entry.kind;
+   const name=document.createElement('td'),icon=document.createElement('span'),text=document.createElement('span');icon.className='explorer-icon '+entry.kind;icon.textContent=entry.kind==='folder'?'📁':'▤';icon.setAttribute('aria-hidden','true');text.textContent=entry.name;name.append(icon,text);
+   const type=document.createElement('td');type.textContent=entry.kind==='folder'?'Dateiordner':'Label-Projekt';
+   const date=document.createElement('td');date.textContent=entry.updatedAt?new Date(entry.updatedAt).toLocaleString('de-CH',{dateStyle:'short',timeStyle:'short'}):'–';row.append(name,type,date);
+   row.onclick=()=>{explorerSelection={kind:entry.kind,id:entry.id};updateExplorerSelection();};
+   row.ondblclick=()=>{row.onclick();$('project-open').onclick();};
+   row.onkeydown=event=>{if(event.key==='Enter'){event.preventDefault();row.ondblclick();}else if(['ArrowDown','ArrowUp'].includes(event.key)){event.preventDefault();const next=event.key==='ArrowDown'?row.nextElementSibling:row.previousElementSibling;if(next){next.focus();next.onclick();}}};
+   list.append(row);
+  }
+  $('explorer-empty').hidden=!!list.childElementCount;updateExplorerSelection();
+  $('folder-status').textContent=`${entries.length} ${entries.length===1?'Projekt':'Projekte'} · ${children.length} Unterordner`;
  }
- function browse(id){browseFolder=id;renderFolders();renderProjects();}
+ function browse(id){browseFolder=id;explorerSelection=null;for(const f of folderPath(id))expandedFolders.add(f.id);renderFolders();renderProjects('');}
+ function renderTree(){
+  const tree=$('folder-tree');tree.replaceChildren();
+  function branch(folder,depth,seen){
+   if(seen.has(folder.id))return;const path=new Set([...seen,folder.id]),children=sorted(folders.filter(f=>(f.parentId||'')===folder.id));
+   const row=document.createElement('div');row.className='tree-item';row.style.setProperty('--tree-depth',depth);row.setAttribute('role','treeitem');row.setAttribute('aria-level',depth+1);row.setAttribute('aria-selected',String(folder.id===browseFolder));if(children.length)row.setAttribute('aria-expanded',String(expandedFolders.has(folder.id)));
+   const toggle=document.createElement('button');toggle.type='button';toggle.className='tree-toggle';toggle.textContent=children.length?(expandedFolders.has(folder.id)?'▾':'▸'):'';toggle.disabled=!children.length;toggle.setAttribute('aria-label',(expandedFolders.has(folder.id)?'Zuklappen: ':'Aufklappen: ')+folder.name);toggle.onclick=()=>{if(expandedFolders.has(folder.id))expandedFolders.delete(folder.id);else expandedFolders.add(folder.id);renderTree();};
+   const button=document.createElement('button');button.type='button';button.className='tree-label';button.textContent='📁 '+folder.name;button.title=folderPath(folder.id).map(f=>f.name).join(' / ')||'Projekte';button.onclick=()=>browse(folder.id);row.append(toggle,button);tree.append(row);
+   if(expandedFolders.has(folder.id))for(const child of children)branch(child,depth+1,path);
+  }
+  branch({id:'',name:'Projekte'},0,new Set());
+ }
  function renderFolders(){
   if(browseFolder&&!folders.some(f=>f.id===browseFolder))browseFolder='';
   const chosen=$('project-folder').value;
@@ -33,11 +65,7 @@ export function createWorkspaceStore({$,getProject,applyProject,newProject,getPr
    const button=document.createElement('button');button.type='button';button.textContent=folder.name;button.className='folder-crumb';
    if(folder.id===browseFolder)button.setAttribute('aria-current','page');button.onclick=()=>browse(folder.id);crumbs.append(button);
   }
-  const list=$('folder-list');list.replaceChildren();
-  for(const folder of sorted(folders.filter(f=>(f.parentId||'')===browseFolder))){
-   const button=document.createElement('button');button.type='button';button.className='folder-card';button.textContent='📁 '+folder.name;button.onclick=()=>browse(folder.id);list.append(button);
-  }
-  list.hidden=!list.childElementCount;
+  $('folder-up').disabled=!browseFolder;expandedFolders.add('');for(const folder of folderPath(browseFolder).slice(0,-1))expandedFolders.add(folder.id);renderTree();
  }
  function syncLayout(){
   const select=$('arrangement-select');
@@ -46,17 +74,23 @@ export function createWorkspaceStore({$,getProject,applyProject,newProject,getPr
    option.textContent=entry.name+(activeProfile?.id===entry.id&&activeProfile.signature!==signature()?' · angepasst':'');
   }
   select.value=activeProfile?'profile:'+activeProfile.id:getProfile().layout.layoutMode;
-  $('profile-update').hidden=!activeProfile;
+  $('profile-update').hidden=!activeProfile||!editingProfile;
+  $('profile-delete').hidden=!activeProfile;
+  $('profile-mode').hidden=!activeProfile;
+  $('profile-edit-save').hidden=!activeProfile||!editingProfile;
+  $('profile-edit').textContent=editingProfile?'Bearbeitung beenden':'Profil bearbeiten';
+  $('profile-edit').setAttribute('aria-pressed',String(editingProfile));
+  $('profile-mode-status').textContent=activeProfile?(editingProfile?'Bearbeitungsmodus · Positionen und Symbole anpassen':activeProfile.signature!==signature()?'Profil angepasst · noch nicht gespeichert':'Profil aktiv · Anordnung gesperrt'):'';
   if(activeProfile&&activeProfile.signature!==signature())$('profile-status').textContent='Profil angepasst. Als neues Profil speichern oder das gewählte Profil überschreiben.';
  }
  function renderProfiles(){
   const select=$('arrangement-select');select.replaceChildren(new Option('Automatisch','auto'),new Option('Frei am Raster','manual'));
   if(profiles.length){const group=document.createElement('optgroup');group.label='Meine Anordnungsprofile';for(const p of sorted(profiles))group.append(new Option(p.name,'profile:'+p.id));select.append(group);}
-  if(activeProfile&&!profiles.some(p=>p.id===activeProfile.id))activeProfile=null;
+  if(activeProfile&&!profiles.some(p=>p.id===activeProfile.id)){activeProfile=null;editingProfile=false;}
   syncLayout();
  }
  async function list(kind){const {entries}=await localAPI(kind);if(kind==='projects')projects=entries;else if(kind==='folders')folders=entries;else profiles=entries;}
- async function refresh(){await Promise.all(['projects','folders','profiles'].map(list));renderFolders();renderProjects();renderProfiles();}
+ async function refresh(){await Promise.all(['projects','folders','profiles'].map(list));renderFolders();renderProjects();renderProfiles();profileStateChanged();}
  async function save(copy=false){
   const name=$('project-name').value.trim();if(!name)throw Error('Bitte einen Projektnamen eingeben.');
   const target=copy||!active?{id:crypto.randomUUID(),revision:0}:active;
@@ -69,11 +103,12 @@ export function createWorkspaceStore({$,getProject,applyProject,newProject,getPr
  async function action(fn,target='project-status'){if(working)return;working=true;const main=document.querySelector('main');main.inert=true;try{await fn();}catch(e){$(target).textContent=e.message;}finally{working=false;main.inert=false;}}
  $('project-name').addEventListener('input',changed);
  $('project-folder').addEventListener('change',changed);
- $('project-list').onchange=()=>{$('project-open').disabled=!$('project-list').value;};
+ $('project-list').onchange=()=>{explorerSelection=$('project-list').value?{kind:'project',id:$('project-list').value}:null;updateExplorerSelection();};
+ $('folder-up').onclick=()=>browse(folders.find(f=>f.id===browseFolder)?.parentId||'');
  $('project-save').onclick=()=>action(()=>save());
  $('project-copy').onclick=()=>action(()=>save(true));
- $('project-new').onclick=()=>action(async()=>{const destination=browseFolder;await preserve();activeProfile=null;await newProject();active=null;dirty=true;$('project-name').value='Neues Projekt';$('project-folder').value=destination;browse(destination);$('project-list').value='';$('project-open').disabled=true;status('Neues Projekt · noch nicht gespeichert');});
- $('project-open').onclick=()=>action(async()=>{const id=$('project-list').value;if(!id)throw Error('Bitte ein Projekt auswählen.');await preserve();const {entry}=await localAPI('projects/'+id);activeProfile=null;await applyProject(entry.data);active={id:entry.id,revision:entry.revision};$('project-name').value=entry.name;$('project-folder').value=entry.data.folderId||'';browseFolder=entry.data.folderId||'';renderFolders();renderProjects(id);dirty=false;syncLayout();status('Projekt geöffnet · '+entry.name);});
+ $('project-new').onclick=()=>action(async()=>{const destination=browseFolder;await preserve();activeProfile=null;editingProfile=false;await newProject();active=null;dirty=true;$('project-name').value='Neues Projekt';$('project-folder').value=destination;browse(destination);$('project-list').value='';$('project-open').disabled=true;status('Neues Projekt · noch nicht gespeichert');});
+ $('project-open').onclick=()=>action(async()=>{if(explorerSelection?.kind==='folder'){browse(explorerSelection.id);return;}const id=$('project-list').value;if(!id)throw Error('Bitte ein Projekt auswählen.');await preserve();const {entry}=await localAPI('projects/'+id);activeProfile=null;editingProfile=false;await applyProject(entry.data);active={id:entry.id,revision:entry.revision};$('project-name').value=entry.name;$('project-folder').value=entry.data.folderId||'';browseFolder=entry.data.folderId||'';renderFolders();renderProjects(id);dirty=false;syncLayout();status('Projekt geöffnet · '+entry.name);});
  $('project-refresh').onclick=()=>action(async()=>{await refresh();status(dirty?'Ungespeicherte Änderungen':'Liste aktualisiert');});
  $('folder-add').onclick=()=>action(async()=>{
   const name=$('folder-name').value.trim();if(!name)throw Error('Bitte einen Ordnernamen eingeben.');
@@ -83,21 +118,39 @@ export function createWorkspaceStore({$,getProject,applyProject,newProject,getPr
  },'folder-status');
  $('arrangement-select').onchange=()=>{
   const value=$('arrangement-select').value;
-  if(!value.startsWith('profile:')){activeProfile=null;$('layoutMode').value=value;$('layoutMode').dispatchEvent(new Event('input',{bubbles:true}));$('profile-status').textContent='Gespeicherte Profile wählst du direkt oben unter «Anordnung» aus.';return;}
-  const id=value.slice(8),previous=activeProfile;
-  action(async()=>{try{const {entry}=await localAPI('profiles/'+id);activeProfile=null;await applyProfile(entry.data);activeProfile={id:entry.id,name:entry.name,signature:signature()};$('profile-name').value=entry.name;changed();$('profile-status').textContent='Profil angewendet · '+entry.name;}catch(e){activeProfile=previous;throw e;}finally{syncLayout();}},'profile-status');
+  if(!value.startsWith('profile:')){activeProfile=null;editingProfile=false;$('layoutMode').value=value;$('layoutMode').dispatchEvent(new Event('input',{bubbles:true}));$('profile-status').textContent='Gespeicherte Profile wählst du direkt oben unter «Anordnung» aus.';return;}
+  const id=value.slice(8),previous=activeProfile,previousEditing=editingProfile;
+  action(async()=>{try{const {entry}=await localAPI('profiles/'+id);activeProfile=null;editingProfile=false;await applyProfile(entry.data);activeProfile={id:entry.id,name:entry.name,signature:signature()};$('profile-name').value=entry.name;changed();$('profile-status').textContent='Profil angewendet · '+entry.name;}catch(e){activeProfile=previous;editingProfile=previousEditing;throw e;}finally{syncLayout();profileStateChanged();}},'profile-status');
  };
  $('profile-save').onclick=()=>action(async()=>{
   const name=$('profile-name').value.trim();if(!name)throw Error('Bitte einen Profilnamen eingeben.');
   const id=crypto.randomUUID();await localAPI('profiles/'+id,{method:'PUT',body:JSON.stringify({name,data:getProfile(),revision:0})});
-  activeProfile={id,name,signature:signature()};await list('profiles');renderProfiles();$('profile-status').textContent='Profil gespeichert. Es ist jetzt unter «Anordnung» auswählbar.';
+  activeProfile={id,name,signature:signature()};editingProfile=false;await list('profiles');renderProfiles();profileStateChanged();$('profile-status').textContent='Profil gespeichert. Es ist jetzt unter «Anordnung» auswählbar.';
  },'profile-status');
  $('profile-update').onclick=()=>action(async()=>{
-  if(!activeProfile)throw Error('Bitte oben ein eigenes Profil auswählen.');
+  if(!activeProfile||!editingProfile)throw Error('Bitte zuerst den Bearbeitungsmodus aktivieren.');
   const {entry}=await localAPI('profiles/'+activeProfile.id);const name=$('profile-name').value.trim()||entry.name;
   await localAPI('profiles/'+entry.id,{method:'PUT',body:JSON.stringify({name,data:getProfile(),revision:entry.revision})});
-  activeProfile={id:entry.id,name,signature:signature()};await list('profiles');renderProfiles();$('profile-status').textContent='Profil aktualisiert · '+name;
+  activeProfile={id:entry.id,name,signature:signature()};editingProfile=false;await list('profiles');renderProfiles();profileStateChanged();$('profile-status').textContent='Profil aktualisiert · '+name;
  },'profile-status');
+ $('profile-edit').onclick=()=>{if(!activeProfile)return;editingProfile=!editingProfile;syncLayout();profileStateChanged();};
+ $('profile-edit-save').onclick=()=>$('profile-update').onclick();
+ $('profile-delete').onclick=()=>action(async()=>{
+  if(!activeProfile)throw Error('Bitte ein eigenes Profil auswählen.');
+  const {entry}=await localAPI('profiles/'+activeProfile.id);
+  if(!window.confirm('Anordnungsprofil «'+entry.name+'» löschen? Gespeicherte Projekte und ihre Labels bleiben erhalten.'))return;
+  await localAPI('profiles/'+entry.id,{method:'DELETE',body:JSON.stringify({revision:entry.revision})});
+  activeProfile=null;editingProfile=false;await list('profiles');renderProfiles();profileStateChanged();$('profile-status').textContent='Profil gelöscht · die aktuelle Anordnung bleibt auf dem Label erhalten.';
+ },'profile-status');
+ $('project-delete').onclick=()=>action(async()=>{
+  const id=$('project-list').value,entry=projects.find(p=>p.id===id);if(!entry)throw Error('Bitte ein Projekt in der Liste auswählen.');
+  const isActive=active?.id===id;
+  const message='Projekt «'+entry.name+'» mit allen gespeicherten Labels löschen?'+(isActive&&dirty?' Auch die ungespeicherten Änderungen dieses Projekts werden verworfen.':'');
+  if(!window.confirm(message))return;
+  await localAPI('projects/'+id,{method:'DELETE',body:JSON.stringify({revision:entry.revision})});
+  if(isActive){active=null;activeProfile=null;editingProfile=false;await newProject();dirty=false;$('project-name').value='Neues Projekt';$('project-folder').value=browseFolder;}
+  explorerSelection=null;await list('projects');renderProjects('');syncLayout();profileStateChanged();status('Projekt gelöscht · '+entry.name);
+ });
  window.addEventListener('beforeunload',event=>{if(dirty){event.preventDefault();event.returnValue='';}});
- return {changed,syncLayout,clearProfile(){activeProfile=null;syncLayout();},async init(){try{await refresh();status('Bereit · Projekte werden lokal gespeichert');}catch(e){status(e.message);}}};
+ return {changed,syncLayout,isProfileLocked:()=>!!activeProfile&&!editingProfile,isProfileEditing:()=>!!activeProfile&&editingProfile,clearProfile(){activeProfile=null;editingProfile=false;syncLayout();},async init(){try{await refresh();status('Bereit · Projekte werden lokal gespeichert');}catch(e){status(e.message);}}};
 }

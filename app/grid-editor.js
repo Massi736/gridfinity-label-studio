@@ -21,18 +21,18 @@ export function createGridEditor({$,state,setPositions,setWidth,show2D}){
  const host=$('label-preview');
  const names={text1:'Textzeile 1',text2:'Textzeile 2',symbol:'Symbol'};
  const fmt=n=>new Intl.NumberFormat('de-CH',{maximumFractionDigits:2}).format(n);
- function active(){const s=state();return s.ready&&s.model&&s.config.layoutMode==='manual'?s:null;}
+ function active(){const s=state();return s.ready&&s.model&&s.config.layoutMode==='manual'&&!s.profileLocked?s:null;}
  function chosen(s){return s.model.elements.find(e=>e.id===selected);}
  function move(x,y,snap=true){const s=active(),e=s&&chosen(s);if(!e||!Number.isFinite(x)||!Number.isFinite(y))return;
   const step=snap&&s.config.gridSnap?Number(s.config.gridStep):0;
   setPositions({...s.config.positions,[selected]:{x:constrainAnchor(x,s.model.W-e.w,e.anchorX||0,step),y:constrainAnchor(y,s.model.H-e.h,e.anchorY||0,step)}});
  }
- function paint(){const s=state();if(s.model)host.innerHTML=editorSVG(s.model,s.config,selected);}
- function sync(){const s=state(),manual=s.config?.layoutMode==='manual';
+ function paint(){const s=state();if(s.model)host.innerHTML=editorSVG(s.model,s.profileLocked?{...s.config,layoutMode:'auto',dimensionShow:false}:s.config,selected);}
+ function sync(){const s=state(),locked=!!s.profileLocked,manual=s.config?.layoutMode==='manual'&&!locked;
   if(document.activeElement!==$('grid-width'))$('grid-width').value=s.config?.width||1;
-  $('grid-controls').hidden=!manual;
-  $('auto-controls').hidden=manual;
-  $('grid-position-controls').hidden=s.view!=='2d'||(!manual&&!s.config?.dimensionShow);
+  $('grid-controls').hidden=!manual;$('grid-width').disabled=locked;
+  $('auto-controls').hidden=manual||locked;
+  $('grid-position-controls').hidden=locked||s.view!=='2d'||(!manual&&!s.config?.dimensionShow);
   host.classList.toggle('editable',manual);
   const select=$('grid-element');select.replaceChildren(...(s.model?.elements||[]).map(e=>new Option(names[e.id],e.id)));
   if(!s.model?.elements.some(e=>e.id===selected))selected=s.model?.elements[0]?.id||'text1';
@@ -46,7 +46,7 @@ export function createGridEditor({$,state,setPositions,setWidth,show2D}){
   }else $('grid-status').textContent='Text oder Symbol hinzufügen, um es auszurichten.';
   paint();
  }
- $('grid-width').oninput=()=>{if($('grid-width').checkValidity()&&$('grid-width').value)setWidth(Number($('grid-width').value));};
+ $('grid-width').oninput=()=>{if(!state().profileLocked&&$('grid-width').checkValidity()&&$('grid-width').value)setWidth(Number($('grid-width').value));};
  $('grid-element').onchange=()=>{selected=$('grid-element').value;sync();};
  for(const id of ['grid-x','grid-y'])$(id).onchange=()=>{const s=active(),e=s&&chosen(s);if(e&&$('grid-x').value&&$('grid-y').value)move(Number($('grid-x').value)-(e.anchorX||0),Number($('grid-y').value)-(e.anchorY||0));};
  for(const button of document.querySelectorAll('[data-grid-align]'))button.onclick=()=>{
