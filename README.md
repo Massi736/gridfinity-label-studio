@@ -69,7 +69,7 @@ Weitere Details: `anleitungen/PROJEKTE_UND_PROFILE.md`. Die Datenbank wird beim 
 
 Die 2D-Vorschau lässt sich mit dem Mausrad oder den Plus-/Minus-Tasten zoomen (50–800 %). Am Hintergrund ziehen verschiebt die Ansicht; mit ↺ oder einem Doppelklick auf den Hintergrund wird sie zurückgesetzt. Im Rastermodus bleiben die Label-Elemente direkt verschiebbar, auch bei vergrösserter Ansicht. Der Zoom verändert nur die Ansicht, nicht die Abmessungen oder Exporte.
 
-«Projekte & Labels» vereint Projektverwaltung und Label-Liste. Unter «Schraube konfigurieren» sind die gespeicherten Vorlagen und der Speichern-Knopf bündig mit den übrigen Eingaben.
+«Projekte & Labels» vereint Projektverwaltung und Label-Liste. Unter «Schraube konfigurieren» sind die gespeicherten Vorlagen und der Speichern-Knopf bündig mit den übrigen Eingaben. Unter «Antrieb anzeigen» lässt sich der Antrieb im Schraubenkopf oder separat links bzw. rechts neben der Schraube darstellen. Die gewählte Position wird in Schraubenvorlagen und Projekten gespeichert und für Vorschau und Export verwendet.
 
 
 ## Profile direkt auswählen, Projekte ordnen und Farbkästchen

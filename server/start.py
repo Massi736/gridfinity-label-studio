@@ -20,7 +20,7 @@ DATABASE = ROOT / 'daten' / 'label-studio.sqlite3'
 CHOICES = {
     'fastenerHead': ['socket', 'countersunk', 'roundh', 'pan', 'none'],
     'fastenerDriver': ['hex', 'torx', 'phillips', 'slot', 'phillips_slot', 'phillips_square', 'square', 'triangle', 'none'],
-    'fastenerDriverPosition': ['head', 'right'],
+    'fastenerDriverPosition': ['head', 'left', 'right'],
     'fastenerShaft': ['machine', 'tapping', 'none'],
     'fastenerThreads': ['full', 'partial', 'none'],
 }

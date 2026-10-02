@@ -12,14 +12,14 @@ export function screwGroups(config,parts){
  const countersunk=config.fastenerHead==='countersunk';
  const head=countersunk?rawHead.map(c=>c.map(([x,y])=>[round(-3+(x+3)*2/3),y])):rawHead;
  const inset=cs=>countersunk?transform(cs,.65,-1,0):cs;
- const separate=config.fastenerDriverPosition==='right',groups=[];
+ const separate=['left','right'].includes(config.fastenerDriverPosition),groups=[];
  if(head.length)groups.push({contours:head,subtract:separate?[]:inset(driver)});
  if(shaft.length)groups.push({contours:shaft});
  let pinX=0;
  if(separate&&driver.length){
   const body=bounds(groups.flatMap(g=>g.contours));
   const face=read('face-'+config.fastenerDriver),fb=bounds(face);
-  const diameter=8,cx=body.x+body.w+1.5+diameter/2;
+  const diameter=8,cx=config.fastenerDriverPosition==='left'?body.x-1.5-diameter/2:body.x+body.w+1.5+diameter/2;
   pinX=cx;
   if(face.length)groups.push({contours:transform(face,diameter/fb.h,cx-(fb.x+fb.w/2)*diameter/fb.h,-(fb.y+fb.h/2)*diameter/fb.h)});
   else {const circle=[Array.from({length:128},(_,i)=>[round(cx+4*Math.cos(i*2*Math.PI/128)),round(4*Math.sin(i*2*Math.PI/128))])];groups.push({contours:circle,subtract:transform(driver,1,cx,0)});}
