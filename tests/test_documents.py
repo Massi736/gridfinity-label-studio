@@ -88,18 +88,60 @@ class StorageTests(unittest.TestCase):
         self.assertIsNone(documents.get(self.db, 'profiles', 'same-id'))
         self.assertIsNotNone(documents.get(self.db, 'folders', 'folder'))
 
-    def test_delete_rejects_stale_revision_and_folders(self):
+    def test_delete_rejects_stale_revision(self):
         self.folder('folder')
         self.save('projects', 'p', project())
         self.save('projects', 'p', project('folder'), 1)
         with self.assertRaises(documents.Conflict):
             with self.db:
                 documents.delete(self.db, 'projects', 'p', {'revision': 1})
-        with self.assertRaises(ValueError):
+        with self.assertRaises(documents.Conflict):
             with self.db:
-                documents.delete(self.db, 'folders', 'folder', {'revision': 1})
+                documents.delete(self.db, 'folders', 'folder', {'revision': 0})
         self.assertIsNotNone(documents.get(self.db, 'projects', 'p'))
         self.assertIsNotNone(documents.get(self.db, 'folders', 'folder'))
+        self.assertEqual(documents.get(self.db, 'projects', 'p')['revision'], 2)
+        self.assertEqual(documents.get(self.db, 'projects', 'p')['data']['folderId'], 'folder')
+
+    def test_delete_folder_subtree_moves_projects_and_preserves_labels(self):
+        self.folder('parent')
+        self.folder('remove', 'parent')
+        self.folder('child', 'remove')
+        self.folder('grandchild', 'child')
+        self.folder('other', 'parent')
+        original = project('grandchild')
+        original['fonts'] = {'custom': {'data': 'font-data'}}
+        self.save('projects', 'deep', original)
+        self.save('projects', 'direct', project('remove'))
+        self.save('projects', 'untouched', project('other'))
+        self.save('profiles', 'remove', {'schema': 1, 'layout': {'width': 2}})
+        with self.db:
+            result = documents.delete(self.db, 'folders', 'remove', {'revision': 1})
+        self.assertEqual(result['removedFolderIds'], ['child', 'grandchild', 'remove'])
+        self.assertEqual(result['destinationId'], 'parent')
+        self.assertEqual({p['id'] for p in result['movedProjects']}, {'deep', 'direct'})
+        self.db.close()
+        self.db = sqlite3.connect(self.path)
+        self.assertEqual({f['id'] for f in documents.listing(self.db, 'folders')}, {'parent', 'other'})
+        expected = {**original, 'folderId': 'parent'}
+        self.assertEqual(documents.get(self.db, 'projects', 'deep')['data'], expected)
+        self.assertEqual(documents.get(self.db, 'projects', 'deep')['revision'], 2)
+        self.assertEqual(documents.get(self.db, 'projects', 'direct')['data']['folderId'], 'parent')
+        self.assertEqual(documents.get(self.db, 'projects', 'untouched')['revision'], 1)
+        self.assertIsNotNone(documents.get(self.db, 'profiles', 'remove'))
+
+    def test_delete_top_level_folder_moves_to_root_and_rejects_stale_project_save(self):
+        self.folder('top')
+        original = project('top')
+        self.save('projects', 'p', original)
+        with self.db:
+            result = documents.delete(self.db, 'folders', 'top', {'revision': 1})
+        self.assertEqual(result['destinationId'], '')
+        self.assertEqual(documents.get(self.db, 'projects', 'p')['data']['folderId'], '')
+        with self.assertRaises(documents.Conflict):
+            self.save('projects', 'p', project(), 1)
+        with self.db:
+            self.assertFalse(documents.delete(self.db, 'folders', 'missing', {'revision': 1}))
 
 
 if __name__ == '__main__':

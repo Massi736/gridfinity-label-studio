@@ -21,6 +21,49 @@ class Element {
 class OptionElement extends Element{constructor(text,value){super('option');this.textContent=text;this.value=value;}}
 const flush=()=>new Promise(resolve=>setImmediate(resolve));
 
+test('Folder deletion preserves an active edited project and updates its save revision',async()=>{
+ const originals={document:globalThis.document,window:globalThis.window,Option:globalThis.Option,fetch:globalThis.fetch};
+ const ids=[...readFileSync(new URL('../app/index.html',import.meta.url),'utf8').matchAll(/id="([^"]+)"/g)].map(m=>m[1]);
+ const elements=Object.fromEntries(ids.map(id=>[id,new Element()]));
+ globalThis.document={querySelector:()=>new Element('main'),createElement:tag=>new Element(tag)};globalThis.Option=OptionElement;
+ let confirmation=false,deleteCount=0,saved=false;
+ globalThis.window={addEventListener(){},confirm:message=>{assert.match(message,/Unterordner/);assert.match(message,/Labels bleiben erhalten/);return confirmation;}};
+ const records={folders:Object.fromEntries([['parent',''],['remove','parent'],['child','remove']].map(([id,parentId])=>[id,{id,name:id,revision:1,data:{schema:1,parentId}}])),projects:{p:{id:'p',name:'M3',revision:1,data:{schema:1,folderId:'child',items:[{id:1,copies:1,config:{text1:'M3'}}]}}},profiles:{}};
+ globalThis.fetch=async(path,options={})=>{
+  const [,kind,id]=path.slice(1).split('/');let result;
+  if(options.method==='DELETE'){
+   assert.equal(kind,'folders');assert.equal(id,'remove');assert.equal(JSON.parse(options.body).revision,1);deleteCount++;
+   delete records.folders.remove;delete records.folders.child;records.projects.p.data.folderId='parent';records.projects.p.revision=2;
+   result={deleted:true,removedFolderIds:['remove','child'],destinationId:'parent',movedProjects:[{id:'p',name:'M3',folderId:'parent',revision:2}]};
+  }else if(options.method==='PUT'){
+   const body=JSON.parse(options.body);assert.equal(id,'p');assert.equal(body.revision,2);assert.equal(body.data.folderId,'parent');assert.equal(body.data.items[0].config.text1,'Edited M3');saved=true;
+   records.projects.p={id,name:body.name,revision:3,data:body.data};result={entry:records.projects.p};
+  }else if(kind==='capabilities')result={documentDelete:true,folderDelete:true};
+  else if(id)result={entry:structuredClone(records[kind][id])};
+  else result={entries:Object.values(records[kind]).map(e=>({id:e.id,name:e.name,revision:e.revision,folderId:e.data.folderId||'',parentId:e.data.parentId||''}))};
+  return {ok:true,json:async()=>result};
+ };
+ let snapshot;
+ try{
+  const store=createWorkspaceStore({$:id=>elements[id],getProject:()=>snapshot,getProfile:()=>profileFrom({layoutMode:'auto'}),applyProject:data=>{snapshot=data;},applyProfile(){},newProject(){throw Error('Folder deletion must preserve the editor');}});
+  await store.init();assert.equal(elements['folder-delete'].disabled,true);
+  for(const id of ['parent','remove','child','p']){
+   const row=elements['explorer-list'].children.find(r=>r.dataset.id===id);row.onclick();await elements['project-open'].onclick();
+  }
+  assert.equal(elements['folder-delete'].disabled,true);
+  snapshot.items[0].config.text1='Edited M3';store.changed();
+  elements['folder-breadcrumbs'].children[2].onclick();assert.equal(elements['folder-delete'].disabled,false);
+  await elements['folder-delete'].onclick();assert.equal(deleteCount,0);assert.ok(records.folders.child);
+  confirmation=true;await elements['folder-delete'].onclick();assert.equal(deleteCount,1);
+  assert.equal(records.folders.remove,undefined);assert.equal(elements['project-folder'].value,'parent');
+  assert.deepEqual(elements['explorer-list'].children.map(r=>r.dataset.id),['p']);
+  assert.equal(elements['project-folder'].children.some(o=>['remove','child'].includes(o.value)),false);
+  assert.equal(elements['folder-breadcrumbs'].children.length,2);assert.match(elements['project-status'].textContent,/1 Projekte verschoben/);
+  await elements['project-save'].onclick();assert.equal(saved,true);
+  elements['folder-breadcrumbs'].children[0].onclick();assert.equal(elements['folder-delete'].disabled,true);
+ }finally{Object.assign(globalThis,originals);}
+});
+
 test('Explorer navigation, profile edit lock and confirmed deletion keep the right project state',async()=>{
  const originals={document:globalThis.document,window:globalThis.window,Option:globalThis.Option,fetch:globalThis.fetch};
  const ids=[...readFileSync(new URL('../app/index.html',import.meta.url),'utf8').matchAll(/id="([^"]+)"/g)].map(m=>m[1]);
@@ -28,7 +71,7 @@ test('Explorer navigation, profile edit lock and confirmed deletion keep the rig
  const main=new Element('main');globalThis.document={querySelector:()=>main,createElement:tag=>new Element(tag)};let confirmation=true;const listeners={};globalThis.window={addEventListener:(name,fn)=>{listeners[name]=fn;},confirm:()=>confirmation};globalThis.Option=OptionElement;
  const records={folders:{tools:{id:'tools',name:'Werkstatt',data:{schema:1,parentId:''},revision:1}},projects:{p:{id:'p',name:'M3',data:{schema:1,folderId:'tools',items:[{id:1,copies:1,config:{text1:'M3'}}]},revision:1}},profiles:{preset:{id:'preset',name:'Schrauben',data:{schema:1,layout:{layoutMode:'manual',width:2,positions:{}}},revision:1}}};
  globalThis.fetch=async(path,options={})=>{
-  const [,kind,id]=path.slice(1).split('/');if(kind==='capabilities')return {ok:true,json:async()=>({documentDelete:true})};if(!id&&((kind==='projects'&&!records.projects.p)||(kind==='profiles'&&!records.profiles.preset)))throw Error('Simulated list reload failure after delete');const entry=records[kind]?.[id];let result;
+  const [,kind,id]=path.slice(1).split('/');if(kind==='capabilities')return {ok:true,json:async()=>({documentDelete:true,folderDelete:true})};if(!id&&((kind==='projects'&&!records.projects.p)||(kind==='profiles'&&!records.profiles.preset)))throw Error('Simulated list reload failure after delete');const entry=records[kind]?.[id];let result;
   if(options.method==='DELETE'){assert.equal(JSON.parse(options.body).revision,entry.revision);delete records[kind][id];result={deleted:true};}
   else if(id)result={entry:structuredClone(entry)};
   else result={entries:Object.values(records[kind]).map(e=>({id:e.id,name:e.name,revision:e.revision,folderId:e.data.folderId||'',parentId:e.data.parentId||''}))};
@@ -80,7 +123,7 @@ test('A failed editor reset cannot leave a deleted project listed or reuse its I
   const [,kind,id]=path.slice(1).split('/');let result;
   if(options.method==='DELETE'){delete records[id];result={deleted:true};}
   else if(options.method==='PUT'){savedId=id;const body=JSON.parse(options.body);assert.equal(body.revision,0);records[id]={id,name:body.name,revision:1,data:body.data};result={entry:records[id]};}
-  else if(kind==='capabilities')result={documentDelete:true};
+  else if(kind==='capabilities')result={documentDelete:true,folderDelete:true};
   else if(id)result={entry:records[id]};
   else result={entries:kind==='projects'?Object.values(records):[]};
   return {ok:true,json:async()=>result};

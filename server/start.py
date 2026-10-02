@@ -163,7 +163,7 @@ class Handler(SimpleHTTPRequestHandler):
             if path == '/api/library':
                 self.respond(200, load_library())
             elif path == '/api/capabilities':
-                self.respond(200, {'documentDelete': True})
+                self.respond(200, {'documentDelete': True, 'folderDelete': True})
             elif path == '/api/screws':
                 with connect() as db:
                     rows = db.execute('SELECT id, name, config, created_at FROM presets ORDER BY created_at DESC').fetchall()
@@ -246,7 +246,8 @@ class Handler(SimpleHTTPRequestHandler):
                 else:
                     entry = documents.save(db, kind, identifier, payload)
             if delete:
-                self.respond(200 if removed else 404, {'deleted': True} if removed else {'error': 'Nicht gefunden.'})
+                result = {'deleted': True, **(removed if isinstance(removed, dict) else {})} if removed else {'error': 'Nicht gefunden.'}
+                self.respond(200 if removed else 404, result)
             else:
                 self.respond(200, {'entry': entry})
         except documents.Conflict as error:

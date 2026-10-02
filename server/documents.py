@@ -87,8 +87,8 @@ def save(db, kind, identifier, payload):
 
 
 def delete(db, kind, identifier, payload):
-    if kind not in ('projects', 'profiles'):
-        raise ValueError('Nur Projekte und Anordnungsprofile können gelöscht werden.')
+    if kind not in ('projects', 'profiles', 'folders'):
+        raise ValueError('Unbekannte Eintragsart.')
     if not isinstance(payload, dict) or type(payload.get('revision')) is not int:
         raise ValueError('Speicherversion fehlt.')
     db.execute('BEGIN IMMEDIATE')
@@ -97,5 +97,28 @@ def delete(db, kind, identifier, payload):
         return False
     if old['revision'] != payload['revision']:
         raise Conflict('In einem anderen Fenster geändert. Bitte die Liste aktualisieren, bevor du löschst.')
+    if kind == 'folders':
+        removed = {identifier}
+        folders = listing(db, 'folders')
+        while True:
+            children = {f['id'] for f in folders if f['parentId'] in removed}
+            if children <= removed:
+                break
+            removed.update(children)
+        destination = old['data'].get('parentId', '')
+        now = datetime.datetime.now(datetime.timezone.utc).isoformat()
+        moved = []
+        rows = db.execute('SELECT id,name,data,revision,updated_at FROM documents WHERE kind=?', ('projects',)).fetchall()
+        for row in rows:
+            project = unpack(row)
+            if project['data'].get('folderId', '') not in removed:
+                continue
+            project['data']['folderId'] = destination
+            revision = project['revision'] + 1
+            encoded = json.dumps(project['data'], ensure_ascii=False, allow_nan=False)
+            db.execute('UPDATE documents SET data=?,revision=?,updated_at=? WHERE kind=? AND id=?', (encoded, revision, now, 'projects', project['id']))
+            moved.append(dict(id=project['id'], name=project['name'], folderId=destination, revision=revision, updatedAt=now))
+        db.executemany('DELETE FROM documents WHERE kind=? AND id=?', [('folders', folder_id) for folder_id in removed])
+        return dict(removedFolderIds=sorted(removed), movedProjects=moved, destinationId=destination)
     db.execute('DELETE FROM documents WHERE kind=? AND id=?', (kind, identifier))
     return True

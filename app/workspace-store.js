@@ -14,6 +14,7 @@ export async function localAPI(path,options={}){
 export async function deleteDocument(kind,entry){
  const result=await localAPI(kind+'/'+entry.id,{method:'DELETE',body:JSON.stringify({revision:entry.revision})});
  if(result.deleted!==true)throw Error('Das Löschen wurde vom Server nicht bestätigt. Bitte den lokalen Server neu starten und erneut versuchen.');
+ return result;
 }
 export function createWorkspaceStore({$,getProject,applyProject,newProject,getProfile,applyProfile,profileStateChanged=()=>{}}){
  let active=null,dirty=false,working=false,browseFolder='',activeProfile=null,editingProfile=false,explorerSelection=null;
@@ -29,6 +30,8 @@ export function createWorkspaceStore({$,getProject,applyProject,newProject,getPr
   $('project-list').value=project?.id||'';
   $('project-open').disabled=!explorerSelection;
   $('project-delete').disabled=!project;
+  const folder=explorerSelection?.kind==='folder'?folders.find(f=>f.id===explorerSelection.id):!explorerSelection?folders.find(f=>f.id===browseFolder):null;
+  $('folder-delete').disabled=!folder;$('folder-delete').title=folder?'Ordner «'+folder.name+'» löschen':'Ordner auswählen';
   for(const row of $('explorer-list').querySelectorAll('tr')){const selected=row.dataset.id===explorerSelection?.id&&row.dataset.kind===explorerSelection?.kind;row.classList.toggle('selected',selected);row.setAttribute('aria-selected',String(selected));}
  }
  function renderProjects(selected=$('project-list').value){
@@ -163,6 +166,21 @@ export function createWorkspaceStore({$,getProject,applyProject,newProject,getPr
   if(isActive){active=null;activeProfile=null;editingProfile=false;dirty=false;try{await newProject();}catch(e){dirty=true;syncLayout();profileStateChanged();throw Error('Projekt gelöscht. Die Label-Ansicht konnte nicht zurückgesetzt werden: '+e.message);}dirty=false;$('project-name').value='Neues Projekt';$('project-folder').value=browseFolder;}
   syncLayout();profileStateChanged();status('Projekt gelöscht · '+entry.name);
  });
+ $('folder-delete').onclick=()=>action(async()=>{
+  const id=explorerSelection?.kind==='folder'?explorerSelection.id:!explorerSelection?browseFolder:'';
+  const entry=folders.find(f=>f.id===id);if(!entry)throw Error('Bitte einen Ordner auswählen. Der Hauptordner kann nicht gelöscht werden.');
+  const destination=folders.find(f=>f.id===entry.parentId),destinationName=destination?.name||'Projekte (Hauptordner)';
+  if(!window.confirm('Ordner «'+entry.name+'» und seine Unterordner löschen? Enthaltene Projekte werden nach «'+destinationName+'» verschoben. Alle Projekte und Labels bleiben erhalten.'))return;
+  const result=await deleteDocument('folders',entry);
+  const removed=new Set(result.removedFolderIds),moved=new Map(result.movedProjects.map(p=>[p.id,p]));
+  folders=folders.filter(f=>!removed.has(f.id));projects=projects.map(p=>moved.has(p.id)?{...p,...moved.get(p.id)}:p);
+  for(const folder of removed)expandedFolders.delete(folder);
+  if(active&&moved.has(active.id))active.revision=moved.get(active.id).revision;
+  if(removed.has($('project-folder').value))$('project-folder').value=result.destinationId;
+  if(removed.has(browseFolder))browseFolder=result.destinationId;
+  explorerSelection=null;renderFolders();renderProjects('');
+  status('Ordner gelöscht · '+entry.name+' · '+result.movedProjects.length+' Projekte verschoben');
+ },'folder-status');
  window.addEventListener('beforeunload',event=>{if(dirty){event.preventDefault();event.returnValue='';}});
- return {changed,syncLayout,isProfileLocked:()=>!!activeProfile&&!editingProfile,isProfileEditing:()=>!!activeProfile&&editingProfile,clearProfile(){activeProfile=null;editingProfile=false;syncLayout();},async init(){try{await refresh();let supported=false;try{supported=(await localAPI('capabilities')).documentDelete===true;}catch{}if(supported)status('Bereit · Projekte werden lokal gespeichert');else{const message='Server-Neustart erforderlich: STARTEN-Fenster mit Strg+C beenden und STARTEN.bat bzw. STARTEN.sh neu starten, damit Löschen funktioniert.';status(message);$('folder-status').textContent=message;}}catch(e){status(e.message);}}};
+ return {changed,syncLayout,isProfileLocked:()=>!!activeProfile&&!editingProfile,isProfileEditing:()=>!!activeProfile&&editingProfile,clearProfile(){activeProfile=null;editingProfile=false;syncLayout();},async init(){try{await refresh();let supported=false;try{const capabilities=await localAPI('capabilities');supported=capabilities.documentDelete===true&&capabilities.folderDelete===true;}catch{}if(supported)status('Bereit · Projekte werden lokal gespeichert');else{const message='Server-Neustart erforderlich: STARTEN-Fenster mit Strg+C beenden und STARTEN.bat bzw. STARTEN.sh neu starten, damit Löschen funktioniert.';status(message);$('folder-status').textContent=message;}}catch(e){status(e.message);}}};
 }
