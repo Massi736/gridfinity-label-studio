@@ -63,3 +63,10 @@ Alle zehn Punkte dieser Erweiterung sind enthalten. Die vier geschlossenen Ansch
 **Farben:** Jede Textzeile hat eine eigene Farbauswahl; unter „Symbol & Farbe“ wird die Symbolfarbe gewählt. 2D, 3D, SVG und 3MF berücksichtigen die getrennten Farben. Mehrfarbige STL-Ausgaben enthalten separate Teile als ZIP, denn STL selbst speichert keine Farben. Alle Teile eines Labels im Slicer gemeinsam importieren. Bei vertieften Labels wird Material ausgeschnitten; die Vertiefung erhält kein separates Farbteil.
 
 Weitere Details: `anleitungen/PROJEKTE_UND_PROFILE.md`. Die Datenbank wird beim ersten Start automatisch um die neuen Tabellen ergänzt. Bereits gespeicherte Schrauben bleiben erhalten. Den alten Server vor dem Kopieren von `daten/` beenden.
+
+
+## 2D-Zoom und gemeinsame Projektübersicht
+
+Die 2D-Vorschau lässt sich mit dem Mausrad oder den Plus-/Minus-Tasten zoomen (50–800 %). Am Hintergrund ziehen verschiebt die Ansicht; mit ↺ oder einem Doppelklick auf den Hintergrund wird sie zurückgesetzt. Im Rastermodus bleiben die Label-Elemente direkt verschiebbar, auch bei vergrösserter Ansicht. Der Zoom verändert nur die Ansicht, nicht die Abmessungen oder Exporte.
+
+«Projekte & Labels» vereint Projektverwaltung und Label-Liste. Unter «Schraube konfigurieren» sind die gespeicherten Vorlagen und der Speichern-Knopf bündig mit den übrigen Eingaben.
