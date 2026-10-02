@@ -28,7 +28,7 @@ test('Explorer navigation, profile edit lock and confirmed deletion keep the rig
  const main=new Element('main');globalThis.document={querySelector:()=>main,createElement:tag=>new Element(tag)};let confirmation=true;const listeners={};globalThis.window={addEventListener:(name,fn)=>{listeners[name]=fn;},confirm:()=>confirmation};globalThis.Option=OptionElement;
  const records={folders:{tools:{id:'tools',name:'Werkstatt',data:{schema:1,parentId:''},revision:1}},projects:{p:{id:'p',name:'M3',data:{schema:1,folderId:'tools',items:[{id:1,copies:1,config:{text1:'M3'}}]},revision:1}},profiles:{preset:{id:'preset',name:'Schrauben',data:{schema:1,layout:{layoutMode:'manual',width:2,positions:{}}},revision:1}}};
  globalThis.fetch=async(path,options={})=>{
-  const [,kind,id]=path.slice(1).split('/');const entry=records[kind]?.[id];let result;
+  const [,kind,id]=path.slice(1).split('/');if(kind==='capabilities')return {ok:true,json:async()=>({documentDelete:true})};if(!id&&((kind==='projects'&&!records.projects.p)||(kind==='profiles'&&!records.profiles.preset)))throw Error('Simulated list reload failure after delete');const entry=records[kind]?.[id];let result;
   if(options.method==='DELETE'){assert.equal(JSON.parse(options.body).revision,entry.revision);delete records[kind][id];result={deleted:true};}
   else if(id)result={entry:structuredClone(entry)};
   else result={entries:Object.values(records[kind]).map(e=>({id:e.id,name:e.name,revision:e.revision,folderId:e.data.folderId||'',parentId:e.data.parentId||''}))};
@@ -67,5 +67,28 @@ test('A locked manual profile hides grid overlays and ignores editing until unlo
   elements['label-preview'].onkeydown({key:'ArrowRight',preventDefault(){throw Error('Locked editing must be ignored');}});assert.equal(positions,null);
   state.profileLocked=false;editor.sync();assert.equal(elements['grid-controls'].hidden,false);assert.match(elements['label-preview'].innerHTML,/data-element/);
   elements['label-preview'].onkeydown({key:'ArrowRight',preventDefault(){}});assert.equal(positions.text1.x,2.5);
+ }finally{Object.assign(globalThis,originals);}
+});
+
+
+test('A failed editor reset cannot leave a deleted project listed or reuse its ID',async()=>{
+ const originals={document:globalThis.document,window:globalThis.window,Option:globalThis.Option,fetch:globalThis.fetch};
+ const ids=[...readFileSync(new URL('../app/index.html',import.meta.url),'utf8').matchAll(/id="([^"]+)"/g)].map(m=>m[1]);const elements=Object.fromEntries(ids.map(id=>[id,new Element()]));
+ globalThis.document={querySelector:()=>new Element('main'),createElement:tag=>new Element(tag)};globalThis.Option=OptionElement;globalThis.window={addEventListener(){},confirm:()=>true};
+ const snapshot={schema:1,items:[{id:1,copies:1,config:{text1:'M3'}}]};const records={p:{id:'p',name:'M3',revision:1,data:snapshot}};let savedId=null;
+ globalThis.fetch=async(path,options={})=>{
+  const [,kind,id]=path.slice(1).split('/');let result;
+  if(options.method==='DELETE'){delete records[id];result={deleted:true};}
+  else if(options.method==='PUT'){savedId=id;const body=JSON.parse(options.body);assert.equal(body.revision,0);records[id]={id,name:body.name,revision:1,data:body.data};result={entry:records[id]};}
+  else if(kind==='capabilities')result={documentDelete:true};
+  else if(id)result={entry:records[id]};
+  else result={entries:kind==='projects'?Object.values(records):[]};
+  return {ok:true,json:async()=>result};
+ };
+ try{
+  const store=createWorkspaceStore({$:id=>elements[id],getProject:()=>snapshot,getProfile:()=>profileFrom({layoutMode:'auto'}),applyProject(){},applyProfile(){},newProject(){throw Error('Editor reset failed');}});
+  await store.init();elements['explorer-list'].children[0].onclick();await elements['project-open'].onclick();await elements['project-delete'].onclick();
+  assert.equal(records.p,undefined);assert.equal(elements['explorer-list'].childElementCount,0);assert.equal(elements['project-delete'].disabled,true);assert.match(elements['folder-status'].textContent,/Projekt gelöscht/);
+  await elements['project-save'].onclick();assert.ok(savedId);assert.notEqual(savedId,'p');
  }finally{Object.assign(globalThis,originals);}
 });

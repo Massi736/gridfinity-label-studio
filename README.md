@@ -92,3 +92,10 @@ Ein ausgewähltes Projekt lässt sich mit **Projekt löschen** entfernen. Beim L
 Eigene Profile werden zunächst **ohne Raster und Positionsgriffe** angezeigt. Positions-, Grössen- und Symboländerungen sind gesperrt; Texte und Farben bleiben bearbeitbar. **Profil bearbeiten** entsperrt die Anordnung. Bei einem freien Rasterprofil öffnet sich dabei die 2D-Ansicht. Mit **Profil speichern** aktualisierst du das Profil und beendest den Bearbeitungsmodus. «Bearbeitung beenden» sperrt die aktuelle Anordnung ohne automatisches Überschreiben des gespeicherten Profils.
 
 Alle JavaScript-Prüfungen: `node --test tests/*.test.mjs`.
+
+
+### Wenn ein gelöschter Eintrag sichtbar bleibt
+
+Nach einer bestätigten Löschantwort entfernt die Oberfläche den Eintrag sofort aus ihrer Liste. Das anschliessende Zurücksetzen der Label-Ansicht kann den gelöschten Eintrag nicht wieder sichtbar machen. API-Anfragen verwenden keine zwischengespeicherten Antworten.
+
+Wenn nach einem Update noch der alte Python-Server läuft, erscheint ein Hinweis: Das STARTEN-Konsolenfenster mit **Strg+C** beenden und anschliessend **STARTEN.bat** bzw. **STARTEN.sh** erneut starten. Nur die Browserseite neu zu laden aktualisiert den laufenden Python-Server nicht.

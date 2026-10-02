@@ -1,6 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {profileFrom,applyLayoutProfile} from '../app/workspace-store.js';
+import {profileFrom,applyLayoutProfile,deleteDocument} from '../app/workspace-store.js';
 import {normalizeColor,DESIGN_COLORS} from '../app/color-palette.js';
 
 test('Applying an arrangement preserves label content, chosen fonts and all colors',()=>{
@@ -16,4 +16,15 @@ test('The palette accepts HEX colors and never creates an invalid label color',(
  assert.equal(normalizeColor(' Ff0088 '),'#ff0088');assert.equal(normalizeColor('#abc'),'#aabbcc');
  for(const value of ['#abcd','garbage','', '#zzzzzz','red'])assert.equal(normalizeColor(value),null);
  assert.equal(DESIGN_COLORS.length,60);for(const color of DESIGN_COLORS)assert.match(color,/^#[0-9a-f]{6}$/);
+});
+
+
+test('Delete errors identify an old server and require explicit success confirmation',async()=>{
+ const original=globalThis.fetch;
+ try{
+  globalThis.fetch=async()=>({ok:false,status:405,json:async()=>({error:'Old server'})});
+  await assert.rejects(()=>deleteDocument('projects',{id:'p',revision:1}),/Strg\+C/);
+  globalThis.fetch=async()=>({ok:true,json:async()=>({ok:true})});
+  await assert.rejects(()=>deleteDocument('profiles',{id:'p',revision:1}),/nicht bestätigt/);
+ }finally{globalThis.fetch=original;}
 });

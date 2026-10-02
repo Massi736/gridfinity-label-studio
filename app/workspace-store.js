@@ -3,8 +3,17 @@ export const PROFILE_FIELDS=['width','height','margin','layoutMode','gridStep','
 export function profileFrom(config){return {schema:1,layout:structuredClone(Object.fromEntries(PROFILE_FIELDS.filter(k=>k in config).map(k=>[k,config[k]])))};}
 export function applyLayoutProfile(config,data){if(data?.schema!==1||!data.layout)throw Error('Ungültiges Anordnungsprofil.');return {...config,...structuredClone(Object.fromEntries(PROFILE_FIELDS.filter(k=>k in data.layout).map(k=>[k,data.layout[k]])))};}
 export async function localAPI(path,options={}){
- const response=await fetch('/api/'+path,{...options,headers:{'Content-Type':'application/json'},signal:AbortSignal.timeout(30000)});
- const data=await response.json();if(!response.ok)throw Error(data.error||'Speichern/Laden fehlgeschlagen.');return data;
+ const response=await fetch('/api/'+path,{...options,cache:'no-store',headers:{'Content-Type':'application/json'},signal:AbortSignal.timeout(30000)});
+ let data;try{data=await response.json();}catch{data={error:'Der lokale Server hat keine gültige Antwort geliefert.'};}
+ if(!response.ok){
+  const message=options.method==='DELETE'&&[405,501].includes(response.status)?'Der laufende Server unterstützt das Löschen noch nicht. Bitte das STARTEN-Fenster mit Strg+C beenden und STARTEN.bat bzw. STARTEN.sh neu starten.':data.error||'Speichern/Laden fehlgeschlagen.';
+  const error=new Error(message);error.status=response.status;throw error;
+ }
+ return data;
+}
+export async function deleteDocument(kind,entry){
+ const result=await localAPI(kind+'/'+entry.id,{method:'DELETE',body:JSON.stringify({revision:entry.revision})});
+ if(result.deleted!==true)throw Error('Das Löschen wurde vom Server nicht bestätigt. Bitte den lokalen Server neu starten und erneut versuchen.');
 }
 export function createWorkspaceStore({$,getProject,applyProject,newProject,getProfile,applyProfile,profileStateChanged=()=>{}}){
  let active=null,dirty=false,working=false,browseFolder='',activeProfile=null,editingProfile=false,explorerSelection=null;
@@ -100,7 +109,7 @@ export function createWorkspaceStore({$,getProject,applyProject,newProject,getPr
   await list('projects');renderFolders();renderProjects(entry.id);status('Gespeichert · '+new Date(entry.updatedAt).toLocaleTimeString('de-CH'));
  }
  async function preserve(){if(dirty)await save();}
- async function action(fn,target='project-status'){if(working)return;working=true;const main=document.querySelector('main');main.inert=true;try{await fn();}catch(e){$(target).textContent=e.message;}finally{working=false;main.inert=false;}}
+ async function action(fn,target='project-status'){if(working)return;working=true;const main=document.querySelector('main');main.inert=true;try{await fn();}catch(e){$(target).textContent=e.message;if(target==='project-status')$('folder-status').textContent=e.message;else if(target==='profile-status')$('profile-mode-status').textContent=e.message;}finally{working=false;main.inert=false;}}
  $('project-name').addEventListener('input',changed);
  $('project-folder').addEventListener('change',changed);
  $('project-list').onchange=()=>{explorerSelection=$('project-list').value?{kind:'project',id:$('project-list').value}:null;updateExplorerSelection();};
@@ -139,18 +148,21 @@ export function createWorkspaceStore({$,getProject,applyProject,newProject,getPr
   if(!activeProfile)throw Error('Bitte ein eigenes Profil auswählen.');
   const {entry}=await localAPI('profiles/'+activeProfile.id);
   if(!window.confirm('Anordnungsprofil «'+entry.name+'» löschen? Gespeicherte Projekte und ihre Labels bleiben erhalten.'))return;
-  await localAPI('profiles/'+entry.id,{method:'DELETE',body:JSON.stringify({revision:entry.revision})});
-  activeProfile=null;editingProfile=false;await list('profiles');renderProfiles();profileStateChanged();$('profile-status').textContent='Profil gelöscht · die aktuelle Anordnung bleibt auf dem Label erhalten.';
+  await deleteDocument('profiles',entry);
+  profiles=profiles.filter(p=>p.id!==entry.id);activeProfile=null;editingProfile=false;renderProfiles();profileStateChanged();$('profile-status').textContent='Profil gelöscht · die aktuelle Anordnung bleibt auf dem Label erhalten.';
  },'profile-status');
  $('project-delete').onclick=()=>action(async()=>{
   const id=$('project-list').value,entry=projects.find(p=>p.id===id);if(!entry)throw Error('Bitte ein Projekt in der Liste auswählen.');
   const isActive=active?.id===id;
   const message='Projekt «'+entry.name+'» mit allen gespeicherten Labels löschen?'+(isActive&&dirty?' Auch die ungespeicherten Änderungen dieses Projekts werden verworfen.':'');
   if(!window.confirm(message))return;
-  await localAPI('projects/'+id,{method:'DELETE',body:JSON.stringify({revision:entry.revision})});
-  if(isActive){active=null;activeProfile=null;editingProfile=false;await newProject();dirty=false;$('project-name').value='Neues Projekt';$('project-folder').value=browseFolder;}
-  explorerSelection=null;await list('projects');renderProjects('');syncLayout();profileStateChanged();status('Projekt gelöscht · '+entry.name);
+  await deleteDocument('projects',entry);
+  // Reflect the confirmed deletion before resetting the editor. A failed editor
+  // reset must not leave a deleted project visible or attached to the old ID.
+  projects=projects.filter(p=>p.id!==id);explorerSelection=null;renderProjects('');
+  if(isActive){active=null;activeProfile=null;editingProfile=false;dirty=false;try{await newProject();}catch(e){dirty=true;syncLayout();profileStateChanged();throw Error('Projekt gelöscht. Die Label-Ansicht konnte nicht zurückgesetzt werden: '+e.message);}dirty=false;$('project-name').value='Neues Projekt';$('project-folder').value=browseFolder;}
+  syncLayout();profileStateChanged();status('Projekt gelöscht · '+entry.name);
  });
  window.addEventListener('beforeunload',event=>{if(dirty){event.preventDefault();event.returnValue='';}});
- return {changed,syncLayout,isProfileLocked:()=>!!activeProfile&&!editingProfile,isProfileEditing:()=>!!activeProfile&&editingProfile,clearProfile(){activeProfile=null;editingProfile=false;syncLayout();},async init(){try{await refresh();status('Bereit · Projekte werden lokal gespeichert');}catch(e){status(e.message);}}};
+ return {changed,syncLayout,isProfileLocked:()=>!!activeProfile&&!editingProfile,isProfileEditing:()=>!!activeProfile&&editingProfile,clearProfile(){activeProfile=null;editingProfile=false;syncLayout();},async init(){try{await refresh();let supported=false;try{supported=(await localAPI('capabilities')).documentDelete===true;}catch{}if(supported)status('Bereit · Projekte werden lokal gespeichert');else{const message='Server-Neustart erforderlich: STARTEN-Fenster mit Strg+C beenden und STARTEN.bat bzw. STARTEN.sh neu starten, damit Löschen funktioniert.';status(message);$('folder-status').textContent=message;}}catch(e){status(e.message);}}};
 }

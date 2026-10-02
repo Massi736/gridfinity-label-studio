@@ -162,6 +162,8 @@ class Handler(SimpleHTTPRequestHandler):
         try:
             if path == '/api/library':
                 self.respond(200, load_library())
+            elif path == '/api/capabilities':
+                self.respond(200, {'documentDelete': True})
             elif path == '/api/screws':
                 with connect() as db:
                     rows = db.execute('SELECT id, name, config, created_at FROM presets ORDER BY created_at DESC').fetchall()
