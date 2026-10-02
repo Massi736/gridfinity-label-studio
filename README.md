@@ -101,3 +101,9 @@ Alle JavaScript-Prüfungen: `node --test tests/*.test.mjs`.
 Nach einer bestätigten Löschantwort entfernt die Oberfläche den Eintrag sofort aus ihrer Liste. Das anschliessende Zurücksetzen der Label-Ansicht kann den gelöschten Eintrag nicht wieder sichtbar machen. API-Anfragen verwenden keine zwischengespeicherten Antworten.
 
 Wenn nach einem Update noch der alte Python-Server läuft, erscheint ein Hinweis: Das STARTEN-Konsolenfenster mit **Strg+C** beenden und anschliessend **STARTEN.bat** bzw. **STARTEN.sh** erneut starten. Nur die Browserseite neu zu laden aktualisiert den laufenden Python-Server nicht.
+
+## 3MF-Farben in Bambu Studio
+
+Der Export verwendet die Farbgruppen der 3MF-Materialerweiterung und ordnet jedem Farbteil und seinen Dreiecken die gewählte Farbe zu. Basis, Text und Symbole bleiben getrennte Teile; Kopien behalten ihre Anordnung. Ein Druckerprofil oder feste AMS-Steckplätze werden nicht vorgegeben.
+
+Nach einem Update die Browserseite mit Strg+F5 neu laden und das Label **neu als 3MF exportieren**. Bereits heruntergeladene Dateien ändern sich nicht. In einer aktuellen Bambu-Studio-Version über **Datei → Importieren → 3MF/STL/STEP/SVG/OBJ/AMF** importieren. Im Farbimport die erkannten Farben den verfügbaren Filamenten zuordnen; beim Senden an den Drucker zusätzlich die AMS-Zuordnung prüfen. Bei einfarbigen oder vertieften Labels kann der Export nur eine Farbe enthalten.
