@@ -166,7 +166,7 @@ class Handler(SimpleHTTPRequestHandler):
                 with connect() as db:
                     rows = db.execute('SELECT id, name, config, created_at FROM presets ORDER BY created_at DESC').fetchall()
                 self.respond(200, {'presets': [preset_row(row) for row in rows]})
-            elif re.fullmatch(r'/api/(projects|profiles)(/[a-zA-Z0-9_-]{1,100})?', path):
+            elif re.fullmatch(r'/api/(projects|profiles|folders)(/[a-zA-Z0-9_-]{1,100})?', path):
                 pieces = path.split('/')
                 with connect() as db:
                     if len(pieces) == 3:
@@ -193,7 +193,7 @@ class Handler(SimpleHTTPRequestHandler):
     def mutate(self, delete=False):
         if not self.local_request():
             return
-        if re.fullmatch(r'/api/(projects|profiles)/[a-zA-Z0-9_-]{1,100}', urlsplit(self.path).path):
+        if re.fullmatch(r'/api/(projects|profiles|folders)/[a-zA-Z0-9_-]{1,100}', urlsplit(self.path).path):
             return self.save_document(delete)
         match = re.fullmatch(r'/api/screws/([a-zA-Z0-9_-]{1,100})', urlsplit(self.path).path)
         if not match:

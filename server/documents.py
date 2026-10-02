@@ -16,7 +16,16 @@ def unpack(row):
 
 
 def listing(db, kind):
-    return [dict(id=r[0], name=r[1], revision=r[2], updatedAt=r[3]) for r in db.execute('SELECT id,name,revision,updated_at FROM documents WHERE kind=? ORDER BY updated_at DESC', (kind,))]
+    entries = []
+    for row in db.execute('SELECT id,name,data,revision,updated_at FROM documents WHERE kind=? ORDER BY updated_at DESC', (kind,)):
+        entry = unpack(row)
+        data = entry.pop('data')
+        if kind == 'projects':
+            entry['folderId'] = data.get('folderId', '')
+        elif kind == 'folders':
+            entry['parentId'] = data.get('parentId', '')
+        entries.append(entry)
+    return entries
 
 
 def get(db, kind, identifier):
@@ -43,6 +52,9 @@ def save(db, kind, identifier, payload):
                 raise ValueError('Kopien müssen zwischen 1 und 50 liegen.')
         if not isinstance(data.get('fonts', {}), dict):
             raise ValueError('Ungültige Schriftdateien.')
+    elif kind == 'folders':
+        if not isinstance(data.get('parentId', ''), str):
+            raise ValueError('Ungültiger übergeordneter Ordner.')
     elif not isinstance(data.get('layout'), dict):
         raise ValueError('Anordnung fehlt.')
     if type(payload.get('revision')) is not int:
@@ -51,6 +63,20 @@ def save(db, kind, identifier, payload):
     encoded = json.dumps(data, ensure_ascii=False, allow_nan=False)
     db.execute('BEGIN IMMEDIATE')
     old = get(db, kind, identifier)
+    # Folder references are checked under the same write lock as the save.
+    if kind in ('projects', 'folders'):
+        folder_id = data.get('folderId' if kind == 'projects' else 'parentId', '')
+        if not isinstance(folder_id, str):
+            raise ValueError('Ungültiger Ordner.')
+        seen = {identifier} if kind == 'folders' else set()
+        while folder_id:
+            if folder_id in seen:
+                raise ValueError('Ein Ordner darf nicht in sich selbst oder einen Unterordner verschoben werden.')
+            seen.add(folder_id)
+            folder = get(db, 'folders', folder_id)
+            if not folder:
+                raise ValueError('Der ausgewählte Ordner existiert nicht mehr.')
+            folder_id = folder['data'].get('parentId', '')
     revision = old['revision'] if old else 0
     if revision != payload['revision']:
         raise Conflict('In einem anderen Fenster geändert. Bitte als neues Projekt/Profil speichern oder erneut öffnen.')

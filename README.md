@@ -70,3 +70,14 @@ Weitere Details: `anleitungen/PROJEKTE_UND_PROFILE.md`. Die Datenbank wird beim 
 Die 2D-Vorschau lässt sich mit dem Mausrad oder den Plus-/Minus-Tasten zoomen (50–800 %). Am Hintergrund ziehen verschiebt die Ansicht; mit ↺ oder einem Doppelklick auf den Hintergrund wird sie zurückgesetzt. Im Rastermodus bleiben die Label-Elemente direkt verschiebbar, auch bei vergrösserter Ansicht. Der Zoom verändert nur die Ansicht, nicht die Abmessungen oder Exporte.
 
 «Projekte & Labels» vereint Projektverwaltung und Label-Liste. Unter «Schraube konfigurieren» sind die gespeicherten Vorlagen und der Speichern-Knopf bündig mit den übrigen Eingaben.
+
+
+## Profile direkt auswählen, Projekte ordnen und Farbkästchen
+
+Unter **Anordnung** stehen neben «Automatisch» und «Frei am Raster» jetzt auch deine gespeicherten Profile. Das Profil wird beim Auswählen angewendet. Für ein eigenes Profil die Anordnung einstellen, «Anordnung als Profil speichern» aufklappen, einen Namen eingeben und speichern. Änderungen an einem ausgewählten Profil werden als «angepasst» angezeigt; mit «Profil überschreiben» aktualisierst du es ausdrücklich. Texte, Symbolauswahl, Schriftfamilien und Farben bleiben beim Anwenden erhalten.
+
+In **Projekte & Labels** kannst du Ordner und Unterordner anlegen. Die Pfadleiste navigiert zurück zu übergeordneten Ordnern; darunter erscheinen Unterordner und die Projekte des aktuellen Ordners. Mit **Speicherordner** und «Projekt speichern» lässt sich ein neues oder bestehendes Projekt in einen beliebigen Ordner ablegen bzw. verschieben. Bereits gespeicherte Projekte liegen zunächst im Hauptordner. Alle Ordner bleiben zusammen mit den Projekten in `daten/label-studio.sqlite3` erhalten.
+
+Alle vier Farbauswahlen öffnen eine Palette mit **Designfarben**, **Standardfarben** und **zuletzt verwendeten Farben**. Ein Klick auf ein Farbkästchen übernimmt die Farbe. Eigene Farben lassen sich als HEX-Code eingeben; die Pfeiltasten wechseln zwischen Kästchen und Escape schliesst die Palette. Gespeicherte Projekte behalten ihre bisherigen Farben.
+
+Entwicklungsprüfungen: `python -m unittest discover -s tests -v` und `node --test tests/profiles-and-colors.test.mjs`.

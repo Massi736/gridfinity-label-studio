@@ -46,3 +46,24 @@ label{font-size:14px}.check,summary,.hint,.text-button{font-size:12px}.symbol-ca
 .two-toolbar output{min-width:49px;text-align:center;font-size:12px;font-variant-numeric:tabular-nums;color:var(--ink)}
 .two-hint{position:absolute;left:15px;right:15px;bottom:39px;text-align:center;font-size:11px;color:#5a7482;pointer-events:none}
 @media(max-width:680px){.project-label-panel{padding:16px}.project-labels .batch-heading{align-items:flex-start}.project-controls .project-row label{flex-basis:100%;min-width:0}.project-controls .project-row button{flex:1 1 auto}.project-labels .count{font-size:11px}.saved-screws{padding-left:20px;padding-right:20px}.two-toolbar{right:10px}.preview-meta{left:15px}.preview-viewport .label-stage{width:calc(100% - 40px)}.two-hint{font-size:10px}}
+
+/* Folder navigation stays local to the project collection. */
+.project-library{padding:14px;background:#f6f9f8;border:1px solid var(--line);border-radius:7px;margin-bottom:16px}
+.folder-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+#folder-breadcrumbs{display:flex;align-items:center;gap:4px;flex-wrap:wrap;min-width:0}
+.folder-crumb{border:0;background:transparent;color:var(--muted);padding:5px 7px;border-radius:4px;overflow-wrap:anywhere;text-align:left;font-size:13px}
+.folder-crumb:not(:last-child)::after{content:' ›';margin-left:7px;color:#8a9a9f}
+.folder-crumb[aria-current]{color:var(--accent);background:var(--mint);font-weight:700}
+.folder-create{margin:0;max-width:100%}.folder-create summary{padding:5px 7px;color:var(--accent)}
+.folder-create-row{display:flex;align-items:end;gap:8px;margin-top:12px;flex-wrap:wrap}.folder-create-row label{margin:0;flex:1;min-width:140px;font-size:13px}.folder-create-row button{height:39px;padding:8px 12px}
+.folder-list{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.folder-card{border:1px solid #ccd9dd;background:white;border-radius:6px;text-align:left;padding:9px 12px;color:var(--ink);font-size:13px;max-width:100%;overflow-wrap:anywhere}.folder-card:hover{border-color:var(--accent);background:#edf6f2}
+#folder-status{margin:10px 0 0}.project-controls .project-folder-label{flex:1 1 160px}.project-controls .project-row>label:first-child{flex:2 1 240px}
+.profile-panel{margin-top:0}.profile-save-row{display:flex;gap:8px;align-items:end;flex-wrap:wrap;margin-top:14px}.profile-save-row label{flex:1 1 160px;margin:0;font-size:13px}.profile-save-row button{height:39px;padding:8px 12px}.profile-panel .hint{margin-bottom:0}
+/* Shared Word-style palette is attached to the body to avoid panel clipping. */
+input[type=hidden]{display:none!important}.color-picker{display:inline-flex}.color-trigger{display:inline-flex;align-items:center;gap:7px;border:1px solid #bdcdd1;background:white;border-radius:4px;padding:4px 7px;min-height:32px;cursor:pointer;color:var(--ink)}
+.current-color{display:block;width:23px;height:23px;border:1px solid #71848e55;border-radius:2px}.color-trigger[aria-expanded=true]{outline:2px solid var(--accent);outline-offset:1px}
+.color-palette{position:fixed;z-index:50;max-height:calc(100vh - 24px);overflow:auto;border:1px solid #c8d4d8;border-radius:7px;background:white;box-shadow:0 9px 30px #142b3538;padding:14px;color:var(--ink);font-size:13px}
+.palette-title{display:block;font-size:13px;margin-bottom:12px}.palette-section{margin:0 0 13px}.palette-section p{margin:0 0 7px;color:var(--muted);font-size:11px;font-weight:700}
+.palette-grid{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:4px}.color-swatch{aspect-ratio:1;border:1px solid #142b3528;border-radius:1px;padding:0;min-width:0;cursor:pointer}.color-swatch:hover,.color-swatch:focus-visible{outline:2px solid #ed9b40;outline-offset:1px;z-index:1}.color-swatch.selected{box-shadow:inset 0 0 0 2px #126b5e;outline:1px solid #126b5e;outline-offset:1px}
+.palette-custom{display:flex;align-items:end;gap:8px;border-top:1px solid var(--line);padding-top:10px}.palette-custom label{margin:0;min-width:0;font-size:11px;flex:1}.palette-custom input{font-family:monospace;letter-spacing:.3px;height:34px;margin-top:5px}.palette-custom button{height:34px;padding:5px 9px;font-size:11px;flex:none}
+@media(max-width:680px){.folder-heading{flex-direction:column}.folder-create{width:100%}.folder-create-row button{flex:none}.project-controls .project-row>label{flex-basis:100%}.profile-save-row button{flex:1 1 auto}.colors{gap:16px}}
